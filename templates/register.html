@@ -1,6 +1,6 @@
 {% extends "layout.html" %}
 
-{% block title %}Log in{% endblock %}
+{% block title %}Register{% endblock %}
 
 {% block content %}
 {% if error_msg %}
@@ -9,14 +9,13 @@
 </div>
 {% endif %}
 
-Log in:
+Register:
 
-<form method="POST" action="/login">
+<form method="POST" action="/register">
+    <label>Email: <input type="name" name="name" /></label>
     <label>Email: <input type="email" name="email" /></label>
     <label>Password: <input type="password" name="password" /></label>
-    <label>Remember me: <input type="checkbox" name="remember_me" /></label>
+    <label>Password: <input type="password" name="password2" /></label>
     <input type="submit" name="" value="Send" />
 </form>
-
-<a href="/register">Register</a>
 {% endblock %}

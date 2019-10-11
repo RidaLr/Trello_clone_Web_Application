@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>CALENDAR</title>
+    <meta name="description" content="My Calendar">
+    <meta charset="utf-8">
+  </head>
+  <body>
+    <h1>
+      <a href="/">My Calendar</a>
+    </h1>
+      <nav>
+        {% if current_user.is_authenticated %}
+          <div><span>{{ current_user.email }}</span>
+        </div>
+        {% endif %}
+    </nav>
+      {% block content %}
+      {% endblock content %}
+  </body>
+</html>
+
