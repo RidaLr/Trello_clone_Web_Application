@@ -37,7 +37,7 @@ class Task:
         , FOREIGN KEY (author_id) REFERENCES users(email)
         )''')
 
-class PostForDisplay:
+class TaskForDisplay:
     def __init__(self, row):
         self.author_name = row['author_name']
         self.date = datetime.datetime.fromtimestamp(row['timestamp'])
