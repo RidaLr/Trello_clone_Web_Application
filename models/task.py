@@ -1,21 +1,23 @@
 import datetime
 
 class Task:
-    def __init__(self, content, author_id):
+    def __init__(self, content, author_id, status):
         self.content = content
         self.author_id = author_id
         self.timestamp = datetime.datetime.now().timestamp()
-
+        self.status = status
+        
     def insert(self, cursor):
         cursor.execute('''
-          INSERT INTO posts 
+          INSERT INTO tasks 
           ( content
           , author_id
           , timestamp
+          , status
           )
           VALUES 
-          ( ?, ?, ?)
-        ''', (self.content, self.author_id, self.timestamp)
+          ( ?, ?, ?, ?)
+        ''', (self.content, self.author_id, self.timestamp, self.status)
         )
         
     def __repr__(self):
@@ -27,13 +29,14 @@ class Task:
 
     @classmethod
     def create_table(cls, cursor):
-        cursor.execute('DROP TABLE IF EXISTS posts')
+        cursor.execute('DROP TABLE IF EXISTS tasks')
 
         cursor.execute('''
-        CREATE TABLE posts
+        CREATE TABLE tasks
         ( author_id TEXT NOT NULL
         , content TEXT
         , timestamp DOUBLE
+        , status TEXT
         , FOREIGN KEY (author_id) REFERENCES users(email)
         )''')
 
