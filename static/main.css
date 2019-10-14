@@ -24,10 +24,3 @@ a {
 #header h1 {
   margin: 0px;
 }
-
-#slogan,a{
-  height: 10em;
-  display: flex;
-  align-items: center;
-  justify-content: center
-}
