@@ -77,19 +77,20 @@ userStatusDecoder =
             )
 
 
-postDecoder : Decoder Post
-postDecoder =
-    Decode.map3 Post
+taskDecoder : Decoder Task
+taskDecoder =
+    Decode.map4 Task
         (Decode.field "author_name" Decode.string)
         (Decode.field "content" Decode.string)
         (Decode.field "date" Decode.string)
+        (Decode.field "status" Decode.string)
 
 
-decodeExternalPostlist : Value -> Msg
-decodeExternalPostlist val =
-    case Decode.decodeValue (Decode.list postDecoder) val of
-        Ok postlist ->
-            GotPosts postlist
+decodeExternalTasklist : Value -> Msg
+decodeExternalTasklist val =
+    case Decode.decodeValue (Decode.list taskDecoder) val of
+        Ok tasklist ->
+            GotTasks tasklist
 
         Err err ->
             DecodeError err
@@ -108,9 +109,9 @@ decodeExternalUserlist val =
 
 initialModel : Model
 initialModel =
-    { posts = []
+    { tasks = []
     , users = []
-    , newPost = ""
+    , newTask = ""
     }
 
 
@@ -120,11 +121,11 @@ update msg model =
         GotUserlist users ->
             ( { model | users = users }, Cmd.none )
 
-        GotPosts posts ->
-            ( { model | posts = posts }, Cmd.none )
+        GotTasks tasks ->
+            ( { model | tasks = tasks }, Cmd.none )
 
-        PostUpdated newPost ->
-            ( { model | newPost = newPost }, Cmd.none )
+        TaskUpdated newTask ->
+            ( { model | newTask = newTask }, Cmd.none )
 
         PostSubmitted ->
             if model.newPost == "" then
