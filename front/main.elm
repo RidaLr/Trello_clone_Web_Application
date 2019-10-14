@@ -33,18 +33,22 @@ type alias User =
     , rowid : Int
     }
 
-
+type TaskStatus
+    = ToDo
+    | InProgress
+    | Done
+    
 type UserStatus
     = Disconnected
     | Available
 
 
 type Msg
-    = GotUserlist (List User)
-    | GotPosts (List Post)
+    = GotUser (User)
+    | GotTasks (List Task)
     | DecodeError Decode.Error
-    | PostUpdated String
-    | PostSubmitted
+    | TaskUpdated String
+    | TaskSubmitted
     | NoOp
 
 
@@ -191,7 +195,7 @@ viewUser user =
         [ text <|
             (case user.status of
                 Available ->
-                    "🔴 "
+                    "✔️ "
 
                 Disconnected ->
                     "⚪ "
