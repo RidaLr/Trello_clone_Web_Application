@@ -124,16 +124,16 @@ update msg model =
         TaskUpdated newTask ->
             ( { model | newTask = newTask }, Cmd.none )
 
-        PostSubmitted ->
-            if model.newPost == "" then
+        TaskSubmitted ->
+            if model.newTask == "" then
                 ( model, Cmd.none )
 
             else
-                ( { model | newPost = "" }
-                , Http.post
+                ( { model | newTask = "" }
+                , Http.task
                     { url = "/posts/"
                     , expect = Http.expectWhatever (\_ -> NoOp)
-                    , body = Http.jsonBody <| Encode.object [ ( "content", Encode.string model.newPost ) ]
+                    , body = Http.jsonBody <| Encode.object [ ( "content", Encode.string model.newTask ) ]
                     }
                 )
 
@@ -158,41 +158,32 @@ view model =
                 (List.map viewUser model.users)
             ]
         , section [ id "posts" ]
-            [ Html.form [ action "/posts/", id "post-form", method "POST", onSubmit PostSubmitted ]
+            [ Html.form [ action "/posts/", id "post-form", method "POST", onSubmit Tasksubmitted ]
                 [ input
                     [ name "content"
                     , placeholder "Say something nice!"
-                    , value model.newPost
+                    , value model.newTask
                     , type_ "text"
-                    , onInput PostUpdated
+                    , onInput TaskUpdated
                     ]
                     []
                 , input [ type_ "submit", value "Share!" ] []
                 ]
             , ul [ id "post-list" ]
-                (List.map viewPost model.posts)
-            ],
-            div []
-        [ form [ onSubmit TaskSubmitted ]
-            [ input [ id "txt-entered", onInput TextEntered, value model.textEntered ] []
-            , input [ id "btn-add", type_ "submit", value "+" ] []
+                (List.map viewTask model.tasks)
             ]
-        , text (String.fromInt (List.length model.tasks) ++ " TASKS TO DO:")
-        , ul []
-            (List.indexedMap viewTask model.tasks)
-        ]
         ]
 
 
-viewPost : Post -> Html Msg
-viewPost post =
+viewTask : Task -> Html Msg
+viewTask task =
     li [ class "post" ]
         [ div [ class "post-header" ]
             [ span [ class "post-author" ]
-                [ text post.authorName ]
-            , span [ class "post-date" ] [ text <| "at " ++ post.date ]
+                [ text task.authorName ]
+            , span [ class "post-date" ] [ text <| "at " ++ task.date ]
             ]
-        , div [ class "post-content" ] [ text post.content ]
+        , div [ class "post-content" ] [ text task.content ]
         ]
 
 

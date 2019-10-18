@@ -142,15 +142,15 @@ def logout():
     flask_login.logout_user()
     return redirect(url_for('login_get'))
 
-@app.route('/posts/', methods=['POST'])
+@app.route('/tasks/', methods=['POST'])
 @flask_login.login_required
 def posts_post():
     content = request.json["content"]
-    post = Post(content=content, author_id=flask_login.current_user.get_id())
+    task = Task(content=content, author_id=flask_login.current_user.get_id())
     
     db = get_db()
     cur = db.cursor()
-    post.insert(cur)
+    task.insert(cur)
     db.commit()
 
     return "ok", 201
