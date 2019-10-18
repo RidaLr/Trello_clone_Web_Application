@@ -131,7 +131,7 @@ update msg model =
             else
                 ( { model | newTask = "" }
                 , Http.task
-                    { url = "/posts/"
+                    { url = "/tasks/"
                     , expect = Http.expectWhatever (\_ -> NoOp)
                     , body = Http.jsonBody <| Encode.object [ ( "content", Encode.string model.newTask ) ]
                     }
@@ -158,7 +158,7 @@ view model =
                 (List.map viewUser model.users)
             ]
         , section [ id "posts" ]
-            [ Html.form [ action "/posts/", id "post-form", method "POST", onSubmit Tasksubmitted ]
+            [ Html.form [ action "/tasks/", id "post-form", method "POST", onSubmit Tasksubmitted ]
                 [ input
                     [ name "content"
                     , placeholder "Say something nice!"
