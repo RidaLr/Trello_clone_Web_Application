@@ -171,7 +171,16 @@ view model =
                 ]
             , ul [ id "post-list" ]
                 (List.map viewPost model.posts)
+            ],
+            div []
+        [ form [ onSubmit TaskSubmitted ]
+            [ input [ id "txt-entered", onInput TextEntered, value model.textEntered ] []
+            , input [ id "btn-add", type_ "submit", value "+" ] []
             ]
+        , text (String.fromInt (List.length model.tasks) ++ " TASKS TO DO:")
+        , ul []
+            (List.indexedMap viewTask model.tasks)
+        ]
         ]
 
 
