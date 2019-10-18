@@ -9,13 +9,10 @@ import Json.Decode as Decode exposing (Decoder, Value)
 import Json.Encode as Encode
 
 
-port userlistPort : (Value -> msg) -> Sub msg
-port postlistPort : (Value -> msg) -> Sub msg
-
 type alias Model =
     { tasks : List Task
     , users : List User
-    , newPost : String
+    , newTask : String
     }
 
 
