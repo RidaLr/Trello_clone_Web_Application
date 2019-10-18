@@ -158,7 +158,7 @@ view model =
                 (List.map viewUser model.users)
             ]
         , section [ id "posts" ]
-            [ Html.form [ action "/tasks/", id "post-form", method "POST", onSubmit Tasksubmitted ]
+            [ Html.form [ action "/tasks/", id "post-form", method "POST", onSubmit TaskSubmitted ]
                 [ input
                     [ name "content"
                     , placeholder "Say something nice!"
