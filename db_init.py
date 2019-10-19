@@ -14,7 +14,7 @@ db.row_factory = make_dicts
 cur = db.cursor()
 
 User.create_table(cur)
-Post.create_table(cur)
+Task.create_table(cur)
 
 
 users = [
@@ -23,15 +23,15 @@ users = [
 ]
 
 tasks = [
-    Post(content="Hi!", author_id="ford@betelgeuse.star"),
-    Post(content="Don't destroy the earth please!", author_id="arthur@earth.planet"),
+    Task(content="Do homework", author_id="ford@betelgeuse.star",status="ToDo"),
+    Task(content="Do AWS project", author_id="arthur@earth.planet",status="Done"),
 ]
 
 for user in users:
     user.insert(cur)
 
-for post in tasks:
-    post.insert(cur)
+for task in tasks:
+    task.insert(cur)
 
 db.commit()
 
