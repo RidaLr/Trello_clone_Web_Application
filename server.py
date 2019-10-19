@@ -4,8 +4,7 @@ import flask_login
 import sqlite3
 
 from models.user import User, UserForLogin, ConnectedUser
-from models.post import Post, PostForDisplay
-from models.game import Game
+from models.task import Task, TaskForDisplay
 
 
 DATABASE = '.data/db.sqlite'
