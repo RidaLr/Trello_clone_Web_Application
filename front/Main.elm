@@ -73,6 +73,25 @@ userStatusDecoder =
                         Decode.fail ("unknown status " ++ status)
             )
 
+taskStatusDecoder : Decoder TaskStatus
+taskStatusDecoder =
+    Decode.string
+        |> Decode.andThen
+            (\status ->
+                case status of
+                    "ToDo" ->
+                        Decode.succeed ToDO
+
+                    "InProgress" ->
+                        Decode.succeed InProgress
+                    
+                    "Done" ->
+                        Decode.succeed Done
+                        
+                    _ ->
+                        Decode.fail ("unknown status " ++ status)
+            )
+
 
 taskDecoder : Decoder Task
 taskDecoder =

@@ -21,10 +21,11 @@ class Task:
         )
         
     def __repr__(self):
-        return "[Post by %s at %s: %s]"%(
+        return "[Post by %s at %s: %s %s]"%(
             self.author_id, 
             str(datetime.datetime.fromtimestamp(self.timestamp)),
-            self.content[:50]
+            self.content[:50],
+            self.status
         )
 
     @classmethod
@@ -50,8 +51,8 @@ class TaskForDisplay:
     @classmethod
     def getAll(cls, cursor):
       cursor.execute('''
-          SELECT name AS author_name, content, timestamp 
-          FROM posts
+          SELECT name AS author_name, content, timestamp ,status
+          FROM tasks
           JOIN users ON author_id=email
           ORDER BY timestamp DESC
       ''')
