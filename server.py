@@ -4,8 +4,8 @@ import flask_login
 import sqlite3
 
 from models.user import User, UserForLogin, ConnectedUser
-from models.task import Task, TaskForDisplay
- 
+from models.post import Post, PostForDisplay
+from models.game import Game
 
 
 DATABASE = '.data/db.sqlite'
@@ -142,15 +142,15 @@ def logout():
     flask_login.logout_user()
     return redirect(url_for('login_get'))
 
-@app.route('/tasks/', methods=['POST'])
+@app.route('/posts/', methods=['POST'])
 @flask_login.login_required
 def posts_post():
     content = request.json["content"]
-    task = Task(content=content, author_id=flask_login.current_user.get_id())
+    post = Post(content=content, author_id=flask_login.current_user.get_id())
     
     db = get_db()
     cur = db.cursor()
-    task.insert(cur)
+    post.insert(cur)
     db.commit()
 
     return "ok", 201
@@ -175,18 +175,6 @@ def broadcast_user_list(cursor):
       ]
   , broadcast=True)
 
-
-def broadcast_post_list(cursor):
-    io.emit('postlist', [
-        { "author_name": p.author_name,
-          "content": p.content,
-          "date": p.date.strftime("%m/%d/%Y, %H:%M:%S"),
-        }
-        for p in PostForDisplay.getAll(cursor)
-      ]
-  , broadcast=True)
-
-    
 @io.on('connect')
 def ws_connect():
     if not flask_login.current_user.is_authenticated:
@@ -197,9 +185,8 @@ def ws_connect():
     
     db = get_db()
     cur = db.cursor()
-    
+  
     broadcast_user_list(cur)
-    broadcast_post_list(cur)
 
 @io.on('disconnect')
 def ws_disconnect():

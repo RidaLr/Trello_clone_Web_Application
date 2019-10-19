@@ -201,12 +201,6 @@ viewUser user =
                 ++ user.name
         ]
 
-
-subscriptions : Model -> Sub Msg
-subscriptions model =
-    Sub.batch
-        [ userlistPort decodeExternalUserlist,
-         postlistPort decodeExternalPostlist ]
         
 main : Program () Model Msg
 main =
@@ -214,5 +208,4 @@ main =
         { init = \() -> ( initialModel, Cmd.none )
         , view = view
         , update = update
-        , subscriptions = subscriptions
         }
