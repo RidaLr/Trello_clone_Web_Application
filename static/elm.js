@@ -6296,7 +6296,7 @@ var author$project$Register$view = function (model) {
 		elm$html$Html$form,
 		_List_fromArray(
 			[
-				elm$html$Html$Attributes$action('/register'),
+				elm$html$Html$Attributes$action('/signup'),
 				elm$html$Html$Attributes$method('POST'),
 				elm$html$Html$Attributes$class('register-form')
 			]),

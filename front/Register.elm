@@ -162,7 +162,7 @@ update msg model =
 
 view : Model -> Html Msg
 view model =
-    Html.form [ action "/register", method "POST", class "register-form" ]
+    Html.form [ action "/signup", method "POST", class "register-form" ]
         [ label []
             [ text "Email: "
             , input [ name "email", type_ "email", value model.email, onInput EmailUpdated ]

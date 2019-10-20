@@ -10,7 +10,7 @@ from models.task import Task, TaskForDisplay
 DATABASE = '.data/db.sqlite'
 app = Flask(__name__)
 app.secret_key = 'mysecret!'
-
+io = flask_socketio.SocketIO(app)
 
 login_manager = flask_login.LoginManager()
 login_manager.init_app(app)
@@ -87,26 +87,26 @@ def login_get():
     return render_template('login.html')
 
   
-@app.route('/register', methods=['GET'])
-def register_get():
-    return render_template('register.html')
+@app.route('/signup', methods=['GET'])
+def signup_get():
+    return render_template('signup.html')
 
-@app.route("/register", methods=['POST'])
-def register_post():
+@app.route("/signup", methods=['POST'])
+def signup_post():
     email = request.form.get('email')
     name = request.form.get('name')
     password1 = request.form.get('password1')
     password2 = request.form.get('password2')
     if not email or not name or not password1 or not password2:
         return render_template(
-          'register.html',
+          'signup.html',
           error_msg="Please provide your email, name and password.",
         )
 
 
     if password1 != password2:
         return render_template(
-          'register.html',
+          'signup.html',
           error_msg="The passwords do not match!",
         )
       
@@ -117,14 +117,23 @@ def register_post():
         user.insert(cur)
     except sqlite3.IntegrityError:
         return render_template(
-          'register.html',
-          error_msg="This email is already registered.",
+          'signup.html',
+          error_msg="This email is already signed up.",
         )
     
     db.commit()
     
     return redirect(url_for('login_get'))
 
+@app.route('/logout', methods=['GET'])
+@flask_login.login_required
+def logout():
+    flask_login.logout_user()
+    return redirect(url_for('login_get'))
+  
+  
+  
+  
 @app.route('/is-email-used/<email>')
 def is_email_used(email):
     db = get_db()
@@ -135,11 +144,7 @@ def is_email_used(email):
         
     return jsonify({"email": email, "free": free})
     
-@app.route('/logout', methods=['GET'])
-@flask_login.login_required
-def logout():
-    flask_login.logout_user()
-    return redirect(url_for('login_get'))
+
 
 @app.route('/tasks/', methods=['POST'])
 @flask_login.login_required
@@ -199,4 +204,4 @@ def ws_disconnect():
 
             
 if __name__ == '__main__':
-    app.run(debug=True)
+    io.run(app, debug=True)
