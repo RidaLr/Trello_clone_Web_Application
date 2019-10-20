@@ -10,7 +10,7 @@ from models.task import Task, TaskForDisplay
 DATABASE = '.data/db.sqlite'
 app = Flask(__name__)
 app.secret_key = 'mysecret!'
-io = flask_socketio.SocketIO(app)
+
 
 login_manager = flask_login.LoginManager()
 login_manager.init_app(app)
@@ -199,4 +199,4 @@ def ws_disconnect():
 
             
 if __name__ == '__main__':
-    io.run(app, debug=True)
+    app.run(debug=True)
