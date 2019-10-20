@@ -5,10 +5,7 @@ body, html {
   height: 100%;
 }
  
-a { 
-  text-decoration: none;
-  color: inherit;
-}
+ 
 #header {
   margin: 0;
   height : 78px;
@@ -23,8 +20,10 @@ a {
 
 
  
-.slogan {
-  background-image: linear-gradient(top, #f1f3f3, #d4dae0);
+a {
+  text-decoration: none;
+  color: inherit;
+  background-image: linear-gradient(top, #f1f9f3, #d4gae0);
   border-bottom: 1px solid #a6abaf;
   border-radius: 6px 6px 0 0;
   box-sizing: border-box;
@@ -35,5 +34,5 @@ a {
   padding-top: 14px;
   margin: 0;
   text-align: center;
-  text-shadow: 0 -1px 0 rgba(0,0,0,0.2), 0 1px 0 #fff;
+  text-shadow: 0 -1px 0 rgba(0,0,0,0.2), 0 1px 0 #ffaa;
 }

@@ -41,7 +41,7 @@ type UserStatus
 
 
 type Msg
-    = GotUser (User)
+    = GotUserlist (User)
     | GotTasks (List Task)
     | DecodeError Decode.Error
     | TaskUpdated String
@@ -80,7 +80,7 @@ taskStatusDecoder =
             (\status ->
                 case status of
                     "ToDo" ->
-                        Decode.succeed ToDO
+                        Decode.succeed ToDo
 
                     "InProgress" ->
                         Decode.succeed InProgress
