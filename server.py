@@ -145,7 +145,7 @@ def logout():
 @flask_login.login_required
 def posts_task():
     content = request.json["content"]
-    task = Task(content=content, author_id=flask_login.current_user.get_id(),status=)
+    task = Task(content=content, author_id=flask_login.current_user.get_id())
     
     db = get_db()
     cur = db.cursor()
