@@ -41,7 +41,7 @@ type UserStatus
 
 
 type Msg
-    = GotUserlist (User)
+    = GotUserlist (List User)
     | GotTasks (List Task)
     | DecodeError Decode.Error
     | TaskUpdated String
