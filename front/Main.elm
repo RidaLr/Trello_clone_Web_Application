@@ -228,4 +228,5 @@ main =
         { init = \() -> ( initialModel, Cmd.none )
         , view = view
         , update = update
+        ,subscriptions = always Sub.none
         }
