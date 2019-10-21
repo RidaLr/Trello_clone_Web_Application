@@ -181,8 +181,12 @@ view model =
             [ div [class "colomne"]
                 [h1[][text("To Do")],
                 Html.form [ action "/tasks/", id "task-form", method "POST", onSubmit TaskSubmitted ]
-                  [ input [ id "txt-entered" ] []
-                  , input [ id "btn-add", type_ "submit", value "+" ] []
+                  [ input [ name "taskToDo"
+                    , placeholder "Write a task!"
+                    , value model.newTask
+                    , type_ "text"
+                    , onInput TaskUpdated ] []
+                  , input [type_ "submit", value "+" ] []
                   ]                
                 , ul [ id "task-list" ]
                     (List.map viewTask model.tasks)
@@ -191,8 +195,12 @@ view model =
                 div [class "colomne"]
                 [h1[][text("In Progress")],
                 Html.form [ action "/tasks/", id "task-form", method "POST", onSubmit TaskSubmitted ]
-                  [ input [ id "txt-entered" ] []
-                  , input [ id "btn-add", type_ "submit", value "+" ] []
+                  [ input [ name "taskInProgress"
+                    , placeholder "Write a task!"
+                    , value model.newTask
+                    , type_ "text"
+                    , onInput TaskUpdated ] []
+                  , input [type_ "submit", value "+" ] []
                   ]
                 , ul [ id "task-list" ]
                     (List.map viewTask model.tasks)
@@ -201,8 +209,12 @@ view model =
                 div [class "colomne"]
                 [h1[][text("Done")],
                 Html.form [ action "/tasks/", id "task-form", method "POST", onSubmit TaskSubmitted ]
-                  [ input [ id "txt-entered" ] []
-                  , input [ id "btn-add", type_ "submit", value "+" ] []
+                  [ input [ name "taskDone"
+                    , placeholder "Write a task!"
+                    , value model.newTask
+                    , type_ "text"
+                    , onInput TaskUpdated ] []
+                  , input [type_ "submit", value "+" ] []
                   ]
                 , ul [ id "task-list" ]
                     (List.map viewTask model.tasks)

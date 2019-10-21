@@ -10657,6 +10657,9 @@ var author$project$Main$update = F2(
 		}
 	});
 var author$project$Main$TaskSubmitted = {$: 'TaskSubmitted'};
+var author$project$Main$TaskUpdated = function (a) {
+	return {$: 'TaskUpdated', a: a};
+};
 var author$project$Main$viewTask = function (task) {
 	return A2(
 		elm$html$Html$li,
@@ -10730,6 +10733,7 @@ var elm$html$Html$h1 = _VirtualDom_node('h1');
 var elm$html$Html$header = _VirtualDom_node('header');
 var elm$html$Html$main_ = _VirtualDom_node('main');
 var elm$html$Html$section = _VirtualDom_node('section');
+var elm$html$Html$Attributes$placeholder = elm$html$Html$Attributes$stringProperty('placeholder');
 var elm$html$Html$Events$alwaysPreventDefault = function (msg) {
 	return _Utils_Tuple2(msg, true);
 };
@@ -10819,14 +10823,17 @@ var author$project$Main$view = function (model) {
 										elm$html$Html$input,
 										_List_fromArray(
 											[
-												elm$html$Html$Attributes$id('txt-entered')
+												elm$html$Html$Attributes$name('taskToDo'),
+												elm$html$Html$Attributes$placeholder('Write a task!'),
+												elm$html$Html$Attributes$value(model.newTask),
+												elm$html$Html$Attributes$type_('text'),
+												elm$html$Html$Events$onInput(author$project$Main$TaskUpdated)
 											]),
 										_List_Nil),
 										A2(
 										elm$html$Html$input,
 										_List_fromArray(
 											[
-												elm$html$Html$Attributes$id('btn-add'),
 												elm$html$Html$Attributes$type_('submit'),
 												elm$html$Html$Attributes$value('+')
 											]),
@@ -10870,14 +10877,17 @@ var author$project$Main$view = function (model) {
 										elm$html$Html$input,
 										_List_fromArray(
 											[
-												elm$html$Html$Attributes$id('txt-entered')
+												elm$html$Html$Attributes$name('taskInProgress'),
+												elm$html$Html$Attributes$placeholder('Write a task!'),
+												elm$html$Html$Attributes$value(model.newTask),
+												elm$html$Html$Attributes$type_('text'),
+												elm$html$Html$Events$onInput(author$project$Main$TaskUpdated)
 											]),
 										_List_Nil),
 										A2(
 										elm$html$Html$input,
 										_List_fromArray(
 											[
-												elm$html$Html$Attributes$id('btn-add'),
 												elm$html$Html$Attributes$type_('submit'),
 												elm$html$Html$Attributes$value('+')
 											]),
@@ -10921,14 +10931,17 @@ var author$project$Main$view = function (model) {
 										elm$html$Html$input,
 										_List_fromArray(
 											[
-												elm$html$Html$Attributes$id('txt-entered')
+												elm$html$Html$Attributes$name('taskDone'),
+												elm$html$Html$Attributes$placeholder('Write a task!'),
+												elm$html$Html$Attributes$value(model.newTask),
+												elm$html$Html$Attributes$type_('text'),
+												elm$html$Html$Events$onInput(author$project$Main$TaskUpdated)
 											]),
 										_List_Nil),
 										A2(
 										elm$html$Html$input,
 										_List_fromArray(
 											[
-												elm$html$Html$Attributes$id('btn-add'),
 												elm$html$Html$Attributes$type_('submit'),
 												elm$html$Html$Attributes$value('+')
 											]),

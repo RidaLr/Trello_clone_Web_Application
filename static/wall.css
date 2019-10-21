@@ -92,7 +92,7 @@ ul#task-list {
   padding: 10px;
   border-radius: 0px;
   border: #ffa7a7 solid 1px;
-  height :20px;
+  height :10px;
   display: block;
   width: 50%;
 }
@@ -210,9 +210,9 @@ button, input[type=submit] {
   border: 1px solid black;
   border-radius: .4em;
   overflow: hidden;
-   margin: 1em 0;
-  width: 350px; // adjust to your needs
-    border-color: lighten(#34495E, 10%);
-    border-top: 1px solid #ddd;
-    border-bottom: 1px solid #ddd;
+  margin: 1em 0;
+  width: 350px;
+  border-color: lighten(#34495E, 10%);
+  border-top: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
 }
