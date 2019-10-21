@@ -8,6 +8,8 @@ import Http
 import Json.Decode as Decode exposing (Decoder, Value)
 import Json.Encode as Encode
 
+port userlistPort : (Value -> msg) -> Sub msg
+port postlistPort : (Value -> msg) -> Sub msg
 
 type alias Model =
     { tasks : List Task
@@ -249,12 +251,18 @@ viewUser user =
                 ++ user.name
         ]
 
-        
+
+subscriptions : Model -> Sub Msg
+subscriptions model =
+    Sub.batch
+        [ userlistPort decodeExternalUserlist,
+         postlistPort decodeExternalPostlist ]
+         
 main : Program () Model Msg
 main =
     Browser.element
         { init = \() -> ( initialModel, Cmd.none )
         , view = view
         , update = update
-        ,subscriptions = always Sub.none
+        ,subscriptions = subscriptions
         }
