@@ -123,7 +123,12 @@ ul#task-list {
   background-color: #CCC;
 }
 
-body { background-image: radial-gradient( cover, rgba(92,100,111,1) 0%,rgba(31,35,40,1) 100%), url('http://i.minus.com/io97fW9I0NqJq.png') }
+body { 
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  color: #444;
+  background: #eee;
+}
 .login {
   background: #eceeee;
   border: 1px solid #42464b;
@@ -194,4 +199,23 @@ button, input[type=submit] {
   opacity: 0.2;
   width: 270px;
 }
-
+@import "compass/css3";
+$breakpoint-alpha: 480px;
+.rwd-table {
+  background: #34495E;
+  color: #fff;
+  border-radius: .4em;
+  overflow: hidden;
+  tr {
+    border-color: lighten(#34495E, 10%);
+  }
+  th, td {
+    margin: .5em 1em;
+    @media (min-width: $breakpoint-alpha) { 
+      padding: 1em !important; 
+    }
+  }
+  th, td:before {
+    color: #dd5;
+  }
+}

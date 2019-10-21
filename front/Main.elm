@@ -178,7 +178,7 @@ view model =
                 (List.map viewUser model.users)
             ]
         , section [ id "tasks" ]
-            [ table []
+            [ table [class "rwd-table"]
        
         [ thead []
             [ th [][text "To DO"]

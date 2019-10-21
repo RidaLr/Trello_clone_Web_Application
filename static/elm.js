@@ -10795,7 +10795,10 @@ var author$project$Main$view = function (model) {
 					[
 						A2(
 						elm$html$Html$table,
-						_List_Nil,
+						_List_fromArray(
+							[
+								elm$html$Html$Attributes$class('rwd-table')
+							]),
 						_List_fromArray(
 							[
 								A2(
