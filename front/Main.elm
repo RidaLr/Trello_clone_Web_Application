@@ -177,8 +177,8 @@ view model =
             , ul []
                 (List.map viewUser model.users)
             ]
-        , section [ id "posts" ]
-            [ Html.form [ action "/tasks/", id "post-form", method "POST", onSubmit TaskSubmitted ]
+        , section [ id "tasks" ]
+            [ Html.form [ action "/tasks/", id "task-form", method "POST", onSubmit TaskSubmitted ]
                 [ input
                     [ name "content"
                     , placeholder "Say something nice!"
@@ -189,7 +189,7 @@ view model =
                     []
                 , input [ type_ "submit", value "Share!" ] []
                 ]
-            , ul [ id "post-list" ]
+            , ul [ id "task-list" ]
                 (List.map viewTask model.tasks)
             ]
         ]
@@ -197,13 +197,13 @@ view model =
 
 viewTask : Task -> Html Msg
 viewTask task =
-    li [ class "post" ]
-        [ div [ class "post-header" ]
-            [ span [ class "post-author" ]
+    li [ class "task" ]
+        [ div [ class "task-header" ]
+            [ span [ class "task-author" ]
                 [ text task.authorName ]
-            , span [ class "post-date" ] [ text <| "at " ++ task.date ]
+            , span [ class "task-date" ] [ text <| "at " ++ task.date ]
             ]
-        , div [ class "post-content" ] [ text task.content ]
+        , div [ class "task-content" ] [ text task.content ]
         ]
 
 

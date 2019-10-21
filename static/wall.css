@@ -19,7 +19,7 @@
   overflox-x: hidden;
 }
 
-#posts {
+#tasks {
   grid-column: 1/ span 8;
   grid-row: 1/ span 5;
   
@@ -49,7 +49,7 @@
   justify-content: space-between; 
 }
 
-ul#post-list {
+ul#task-list {
   list-style: none;
 /*  width:100%;*/
   display: block;
@@ -58,14 +58,14 @@ ul#post-list {
   margin-top: 10px;
 }
 
-#post-list .post {
+#task-list .task {
   display: block;
   width: 80%;
   margin-bottom: 25px;
   
 }
 
-.post-header {
+.task-header {
   background-color: red;
   height: 20px;
   color: white;
@@ -75,18 +75,18 @@ ul#post-list {
   padding: 5px;
 }
 
-.post-content {
+.task-content {
   border: red 1px solid;
   border-top: none;
   padding: 5px;
 }
 
-#post-form {
+#task-form {
   display: flex;
   flex-direction:row;
 }
 
-#post-form input[type=text] {
+#task-form input[type=text] {
   padding: 10px;
   border-radius: 0px;
   border: #ffa7a7 solid 1px;
@@ -95,11 +95,11 @@ ul#post-list {
   width: 80%;
 }
 
-#post-form input[type=text]:focus{
+#task-form input[type=text]:focus{
   border-color: red;
 }
 
-#post-form input[type=submit]{
+#task-form input[type=submit]{
   padding: 10px;
   border-radius: 0px;
   border: none;
