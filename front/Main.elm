@@ -178,6 +178,13 @@ view model =
                 (List.map viewUser model.users)
             ]
         , section [ id "tasks" ]
+            div[class "drag-container"]
+              [ul[class "drag-list"]
+                [li [class "drag-column drag-column-on-hold"]
+                  span [class "drag-column-header"]
+                    [text("On Hold")]
+
+                  ]],
             [ Html.form [ action "/tasks/", id "task-form", method "POST", onSubmit TaskSubmitted ]
                 [ input
                     [ name "content"
