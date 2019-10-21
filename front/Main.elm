@@ -178,28 +178,31 @@ view model =
                 (List.map viewUser model.users)
             ]
         , section [ id "tasks" ]
-            [ table [class "rwd-table"]
-       
-        [ thead []
-            [ th [][text "To DO"]
-            , th [][text "In Progress"]
-            , th [][text "Done"]
-        ],
-       
-         tr []
-            [ td [][text "Total"]
-            , td [][text ("jhgjhgjh")]
-            , td [][text ("2222")]
-            ]
-          ],Html.form [ action "/tasks/", id "task-form", method "POST", onSubmit TaskSubmitted ]
-                [ input [ id "txt-entered" ] []
-                , input [ id "btn-add", type_ "submit", value "+" ] []
-                ]
+            [ div [class "colomne"]
+                [h1[][text("To Do")],
+                Html.form [ action "/tasks/", id "task-form", method "POST", onSubmit TaskSubmitted ]
+                  [ input [ id "txt-entered" ] []
+                  , input [ id "btn-add", type_ "submit", value "+" ] []
+                  ]
                 , text (" TASKS TO DO:")
 
                 
-            , ul [ id "task-list" ]
-                (List.map viewTask model.tasks)
+                , ul [ id "task-list" ]
+                    (List.map viewTask model.tasks)
+                ]
+                ,
+                div [class "colomne"]
+                [h1[][text("To Do")],
+                Html.form [ action "/tasks/", id "task-form", method "POST", onSubmit TaskSubmitted ]
+                  [ input [ id "txt-entered" ] []
+                  , input [ id "btn-add", type_ "submit", value "+" ] []
+                  ]
+                , text (" TASKS TO DO:")
+
+                
+                , ul [ id "task-list" ]
+                    (List.map viewTask model.tasks)
+                ]
             ]
         ]
 

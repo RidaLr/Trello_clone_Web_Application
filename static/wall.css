@@ -165,7 +165,7 @@ input[type="checkbox"]:checked {
   width: 58px;
 }
 button, input[type=submit] {
-  width:240px;
+  width:40px;
   height:35px;
   display:block;
   font-family:Arial, "Helvetica", sans-serif;
@@ -201,26 +201,15 @@ button, input[type=submit] {
 }
 
 
-.rwd-table {
+.colomne {
   background: #34495E;
   color: #fff;
   border: 1px solid black;
   border-radius: .4em;
   overflow: hidden;
    margin: 1em 0;
-  min-width: 900px; // adjust to your needs
-  tr {
+  width: 350px; // adjust to your needs
     border-color: lighten(#34495E, 10%);
     border-top: 1px solid #ddd;
     border-bottom: 1px solid #ddd;
-  }
-  th, td {
-    margin: .5em 1em;
-    @media (min-width: 900px) { 
-      padding: 1em !important; 
-    }
-  }
-  th, td:before {
-    color: #dd5;
-  }
 }

@@ -10726,14 +10726,10 @@ var author$project$Main$viewUser = function (user) {
 					user.name))
 			]));
 };
+var elm$html$Html$h1 = _VirtualDom_node('h1');
 var elm$html$Html$header = _VirtualDom_node('header');
 var elm$html$Html$main_ = _VirtualDom_node('main');
 var elm$html$Html$section = _VirtualDom_node('section');
-var elm$html$Html$table = _VirtualDom_node('table');
-var elm$html$Html$td = _VirtualDom_node('td');
-var elm$html$Html$th = _VirtualDom_node('th');
-var elm$html$Html$thead = _VirtualDom_node('thead');
-var elm$html$Html$tr = _VirtualDom_node('tr');
 var elm$html$Html$Events$alwaysPreventDefault = function (msg) {
 	return _Utils_Tuple2(msg, true);
 };
@@ -10794,104 +10790,109 @@ var author$project$Main$view = function (model) {
 				_List_fromArray(
 					[
 						A2(
-						elm$html$Html$table,
+						elm$html$Html$div,
 						_List_fromArray(
 							[
-								elm$html$Html$Attributes$class('rwd-table')
+								elm$html$Html$Attributes$class('colomne')
 							]),
 						_List_fromArray(
 							[
 								A2(
-								elm$html$Html$thead,
+								elm$html$Html$h1,
 								_List_Nil,
 								_List_fromArray(
 									[
-										A2(
-										elm$html$Html$th,
-										_List_Nil,
-										_List_fromArray(
-											[
-												elm$html$Html$text('To DO')
-											])),
-										A2(
-										elm$html$Html$th,
-										_List_Nil,
-										_List_fromArray(
-											[
-												elm$html$Html$text('In Progress')
-											])),
-										A2(
-										elm$html$Html$th,
-										_List_Nil,
-										_List_fromArray(
-											[
-												elm$html$Html$text('Done')
-											]))
+										elm$html$Html$text('To Do')
 									])),
 								A2(
-								elm$html$Html$tr,
+								elm$html$Html$form,
+								_List_fromArray(
+									[
+										elm$html$Html$Attributes$action('/tasks/'),
+										elm$html$Html$Attributes$id('task-form'),
+										elm$html$Html$Attributes$method('POST'),
+										elm$html$Html$Events$onSubmit(author$project$Main$TaskSubmitted)
+									]),
+								_List_fromArray(
+									[
+										A2(
+										elm$html$Html$input,
+										_List_fromArray(
+											[
+												elm$html$Html$Attributes$id('txt-entered')
+											]),
+										_List_Nil),
+										A2(
+										elm$html$Html$input,
+										_List_fromArray(
+											[
+												elm$html$Html$Attributes$id('btn-add'),
+												elm$html$Html$Attributes$type_('submit'),
+												elm$html$Html$Attributes$value('+')
+											]),
+										_List_Nil)
+									])),
+								elm$html$Html$text(' TASKS TO DO:'),
+								A2(
+								elm$html$Html$ul,
+								_List_fromArray(
+									[
+										elm$html$Html$Attributes$id('task-list')
+									]),
+								A2(elm$core$List$map, author$project$Main$viewTask, model.tasks))
+							])),
+						A2(
+						elm$html$Html$div,
+						_List_fromArray(
+							[
+								elm$html$Html$Attributes$class('colomne')
+							]),
+						_List_fromArray(
+							[
+								A2(
+								elm$html$Html$h1,
 								_List_Nil,
 								_List_fromArray(
 									[
-										A2(
-										elm$html$Html$td,
-										_List_Nil,
-										_List_fromArray(
-											[
-												elm$html$Html$text('Total')
-											])),
-										A2(
-										elm$html$Html$td,
-										_List_Nil,
-										_List_fromArray(
-											[
-												elm$html$Html$text('jhgjhgjh')
-											])),
-										A2(
-										elm$html$Html$td,
-										_List_Nil,
-										_List_fromArray(
-											[
-												elm$html$Html$text('2222')
-											]))
-									]))
-							])),
-						A2(
-						elm$html$Html$form,
-						_List_fromArray(
-							[
-								elm$html$Html$Attributes$action('/tasks/'),
-								elm$html$Html$Attributes$id('task-form'),
-								elm$html$Html$Attributes$method('POST'),
-								elm$html$Html$Events$onSubmit(author$project$Main$TaskSubmitted)
-							]),
-						_List_fromArray(
-							[
+										elm$html$Html$text('To Do')
+									])),
 								A2(
-								elm$html$Html$input,
+								elm$html$Html$form,
 								_List_fromArray(
 									[
-										elm$html$Html$Attributes$id('txt-entered')
+										elm$html$Html$Attributes$action('/tasks/'),
+										elm$html$Html$Attributes$id('task-form'),
+										elm$html$Html$Attributes$method('POST'),
+										elm$html$Html$Events$onSubmit(author$project$Main$TaskSubmitted)
 									]),
-								_List_Nil),
-								A2(
-								elm$html$Html$input,
 								_List_fromArray(
 									[
-										elm$html$Html$Attributes$id('btn-add'),
-										elm$html$Html$Attributes$type_('submit'),
-										elm$html$Html$Attributes$value('+')
+										A2(
+										elm$html$Html$input,
+										_List_fromArray(
+											[
+												elm$html$Html$Attributes$id('txt-entered')
+											]),
+										_List_Nil),
+										A2(
+										elm$html$Html$input,
+										_List_fromArray(
+											[
+												elm$html$Html$Attributes$id('btn-add'),
+												elm$html$Html$Attributes$type_('submit'),
+												elm$html$Html$Attributes$value('+')
+											]),
+										_List_Nil)
+									])),
+								elm$html$Html$text(' TASKS TO DO:'),
+								A2(
+								elm$html$Html$ul,
+								_List_fromArray(
+									[
+										elm$html$Html$Attributes$id('task-list')
 									]),
-								_List_Nil)
-							])),
-						elm$html$Html$text(' TASKS TO DO:'),
-						A2(
-						elm$html$Html$ul,
-						_List_fromArray(
-							[
-								elm$html$Html$Attributes$id('task-list')
-							]),
-						A2(elm$core$List$map, author$project$Main$viewTask, model.tasks))
+								A2(elm$core$List$map, author$project$Main$viewTask, model.tasks))
+							]))
 					]))
 			]));
 };
