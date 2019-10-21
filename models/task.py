@@ -46,6 +46,7 @@ class TaskForDisplay:
         self.author_name = row['author_name']
         self.date = datetime.datetime.fromtimestamp(row['timestamp'])
         self.content = row['content']
+        self.status = row['status']
    
     
     @classmethod
