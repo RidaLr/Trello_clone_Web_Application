@@ -9,7 +9,7 @@ import Json.Decode as Decode exposing (Decoder, Value)
 import Json.Encode as Encode
 
 port userlistPort : (Value -> msg) -> Sub msg
-port postlistPort : (Value -> msg) -> Sub msg
+port tasklistPort : (Value -> msg) -> Sub msg
 
 type alias Model =
     { tasks : List Task
@@ -151,10 +151,10 @@ update msg model =
 
             else
                 ( { model | newTask = "" }
-                , Http.post
+                , Http.task
                     { url = "/tasks/"
                     , expect = Http.expectWhatever (\_ -> NoOp)
-                    , body = Http.jsonBody <| Encode.object [ ( "content", Encode.string model.newTask ) ]
+                    , body = Http.jsonBody <| Encode.object [ ( "taskToDo", Encode.string model.newTask ) ]
                     }
                 )
 
@@ -256,7 +256,7 @@ subscriptions : Model -> Sub Msg
 subscriptions model =
     Sub.batch
         [ userlistPort decodeExternalUserlist,
-         postlistPort decodeExternalPostlist ]
+         tasklistPort decodeExternalTasklist ]
          
 main : Program () Model Msg
 main =

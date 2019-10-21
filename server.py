@@ -149,7 +149,7 @@ def is_email_used(email):
 @app.route('/tasks/', methods=['POST'])
 @flask_login.login_required
 def posts_task():
-    content = request.json["content"]
+    content = request.json["taskToDo"]
     task = Task(content=content, author_id=flask_login.current_user.get_id())
     
     db = get_db()

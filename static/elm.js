@@ -10574,6 +10574,91 @@ var author$project$Register$main = elm$browser$Browser$element(
 		view: author$project$Register$view
 	});
 var author$project$Main$initialModel = {newTask: '', tasks: _List_Nil, users: _List_Nil};
+var author$project$Main$DecodeError = function (a) {
+	return {$: 'DecodeError', a: a};
+};
+var author$project$Main$GotTasks = function (a) {
+	return {$: 'GotTasks', a: a};
+};
+var author$project$Main$Task = F4(
+	function (authorName, content, date, status) {
+		return {authorName: authorName, content: content, date: date, status: status};
+	});
+var elm$json$Json$Decode$map4 = _Json_map4;
+var author$project$Main$taskDecoder = A5(
+	elm$json$Json$Decode$map4,
+	author$project$Main$Task,
+	A2(elm$json$Json$Decode$field, 'author_name', elm$json$Json$Decode$string),
+	A2(elm$json$Json$Decode$field, 'content', elm$json$Json$Decode$string),
+	A2(elm$json$Json$Decode$field, 'date', elm$json$Json$Decode$string),
+	A2(elm$json$Json$Decode$field, 'status', elm$json$Json$Decode$string));
+var author$project$Main$decodeExternalTasklist = function (val) {
+	var _n0 = A2(
+		elm$json$Json$Decode$decodeValue,
+		elm$json$Json$Decode$list(author$project$Main$taskDecoder),
+		val);
+	if (_n0.$ === 'Ok') {
+		var tasklist = _n0.a;
+		return author$project$Main$GotTasks(tasklist);
+	} else {
+		var err = _n0.a;
+		return author$project$Main$DecodeError(err);
+	}
+};
+var author$project$Main$GotUserlist = function (a) {
+	return {$: 'GotUserlist', a: a};
+};
+var author$project$Main$User = F3(
+	function (name, status, rowid) {
+		return {name: name, rowid: rowid, status: status};
+	});
+var author$project$Main$Available = {$: 'Available'};
+var author$project$Main$Disconnected = {$: 'Disconnected'};
+var elm$json$Json$Decode$andThen = _Json_andThen;
+var elm$json$Json$Decode$fail = _Json_fail;
+var author$project$Main$userStatusDecoder = A2(
+	elm$json$Json$Decode$andThen,
+	function (status) {
+		switch (status) {
+			case 'DISCONNECTED':
+				return elm$json$Json$Decode$succeed(author$project$Main$Disconnected);
+			case 'AVAILABLE':
+				return elm$json$Json$Decode$succeed(author$project$Main$Available);
+			default:
+				return elm$json$Json$Decode$fail('unknown status ' + status);
+		}
+	},
+	elm$json$Json$Decode$string);
+var elm$json$Json$Decode$int = _Json_decodeInt;
+var author$project$Main$userDecoder = A4(
+	elm$json$Json$Decode$map3,
+	author$project$Main$User,
+	A2(elm$json$Json$Decode$field, 'name', elm$json$Json$Decode$string),
+	A2(elm$json$Json$Decode$field, 'status', author$project$Main$userStatusDecoder),
+	A2(elm$json$Json$Decode$field, 'rowid', elm$json$Json$Decode$int));
+var author$project$Main$decodeExternalUserlist = function (val) {
+	var _n0 = A2(
+		elm$json$Json$Decode$decodeValue,
+		elm$json$Json$Decode$list(author$project$Main$userDecoder),
+		val);
+	if (_n0.$ === 'Ok') {
+		var userlist = _n0.a;
+		return author$project$Main$GotUserlist(userlist);
+	} else {
+		var err = _n0.a;
+		return author$project$Main$DecodeError(err);
+	}
+};
+var author$project$Main$tasklistPort = _Platform_incomingPort('tasklistPort', elm$json$Json$Decode$value);
+var author$project$Main$userlistPort = _Platform_incomingPort('userlistPort', elm$json$Json$Decode$value);
+var author$project$Main$subscriptions = function (model) {
+	return elm$core$Platform$Sub$batch(
+		_List_fromArray(
+			[
+				author$project$Main$userlistPort(author$project$Main$decodeExternalUserlist),
+				author$project$Main$tasklistPort(author$project$Main$decodeExternalTasklist)
+			]));
+};
 var author$project$Main$NoOp = {$: 'NoOp'};
 var elm$core$Debug$log = _Debug_log;
 var elm$http$Http$expectBytesResponse = F2(
@@ -10639,7 +10724,7 @@ var author$project$Main$update = F2(
 									_List_fromArray(
 										[
 											_Utils_Tuple2(
-											'content',
+											'taskToDo',
 											elm$json$Json$Encode$string(model.newTask))
 										]))),
 							expect: elm$http$Http$expectWhatever(
@@ -10963,7 +11048,7 @@ var author$project$Main$main = elm$browser$Browser$element(
 		init: function (_n0) {
 			return _Utils_Tuple2(author$project$Main$initialModel, elm$core$Platform$Cmd$none);
 		},
-		subscriptions: elm$core$Basics$always(elm$core$Platform$Sub$none),
+		subscriptions: author$project$Main$subscriptions,
 		update: author$project$Main$update,
 		view: author$project$Main$view
 	});
