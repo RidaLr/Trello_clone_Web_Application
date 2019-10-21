@@ -22,10 +22,12 @@
 #tasks {
   grid-column: 1/ span 8;
   grid-row: 1/ span 5;
-  
-   overflow-y: scroll; 
-   overflox-x: hidden;
-    z-index: 0;
+  overflow-y: scroll; 
+  overflox-x: hidden;
+  z-index: 0;
+  display:flex;
+  flex-direction: row;
+  justify-content: space-between; 
 }
 
 #user-list > header {
@@ -92,7 +94,7 @@ ul#task-list {
   border: #ffa7a7 solid 1px;
   height :20px;
   display: block;
-  width: 80%;
+  width: 50%;
 }
 
 #task-form input[type=text]:focus{
@@ -128,6 +130,7 @@ body {
   -webkit-font-smoothing: antialiased;
   font-smoothing: antialiased;
   background: #2b2b2b;
+  
 }
 .login {
   background: #eceeee;

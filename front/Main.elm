@@ -183,23 +183,27 @@ view model =
                 Html.form [ action "/tasks/", id "task-form", method "POST", onSubmit TaskSubmitted ]
                   [ input [ id "txt-entered" ] []
                   , input [ id "btn-add", type_ "submit", value "+" ] []
-                  ]
-                , text (" TASKS TO DO:")
-
-                
+                  ]                
                 , ul [ id "task-list" ]
                     (List.map viewTask model.tasks)
                 ]
                 ,
                 div [class "colomne"]
-                [h1[][text("To Do")],
+                [h1[][text("In Progress")],
                 Html.form [ action "/tasks/", id "task-form", method "POST", onSubmit TaskSubmitted ]
                   [ input [ id "txt-entered" ] []
                   , input [ id "btn-add", type_ "submit", value "+" ] []
                   ]
-                , text (" TASKS TO DO:")
-
-                
+                , ul [ id "task-list" ]
+                    (List.map viewTask model.tasks)
+                ]
+                ,
+                div [class "colomne"]
+                [h1[][text("Done")],
+                Html.form [ action "/tasks/", id "task-form", method "POST", onSubmit TaskSubmitted ]
+                  [ input [ id "txt-entered" ] []
+                  , input [ id "btn-add", type_ "submit", value "+" ] []
+                  ]
                 , ul [ id "task-list" ]
                     (List.map viewTask model.tasks)
                 ]
