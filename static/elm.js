@@ -10573,14 +10573,14 @@ var author$project$Register$main = elm$browser$Browser$element(
 		update: author$project$Register$update,
 		view: author$project$Register$view
 	});
-var author$project$Main$initialModel = {newPost: '', posts: _List_Nil, users: _List_Nil};
+var author$project$Main$initialModel = {newTask: '', tasks: _List_Nil, users: _List_Nil};
 var author$project$Main$DecodeError = function (a) {
 	return {$: 'DecodeError', a: a};
 };
-var author$project$Main$GotPosts = function (a) {
-	return {$: 'GotPosts', a: a};
+var author$project$Main$GotTasks = function (a) {
+	return {$: 'GotTasks', a: a};
 };
-var author$project$Main$Post = F3(
+var author$project$Main$Task = F3(
 	function (authorName, content, date) {
 		return {authorName: authorName, content: content, date: date};
 	});

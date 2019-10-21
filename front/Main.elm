@@ -140,8 +140,8 @@ update msg model =
         GotTasks tasks ->
             ( { model | tasks = tasks }, Cmd.none )
 
-        TaskUpdated newTAsk ->
-            ( { model | newTask = newTAsk }, Cmd.none )
+        TaskUpdated newTask ->
+            ( { model | newTask = newTask }, Cmd.none )
 
         TaskSubmitted ->
             if model.newTask == "" then
