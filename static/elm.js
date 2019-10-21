@@ -10729,6 +10729,11 @@ var author$project$Main$viewUser = function (user) {
 var elm$html$Html$header = _VirtualDom_node('header');
 var elm$html$Html$main_ = _VirtualDom_node('main');
 var elm$html$Html$section = _VirtualDom_node('section');
+var elm$html$Html$table = _VirtualDom_node('table');
+var elm$html$Html$td = _VirtualDom_node('td');
+var elm$html$Html$th = _VirtualDom_node('th');
+var elm$html$Html$thead = _VirtualDom_node('thead');
+var elm$html$Html$tr = _VirtualDom_node('tr');
 var elm$html$Html$Events$alwaysPreventDefault = function (msg) {
 	return _Utils_Tuple2(msg, true);
 };
@@ -10788,6 +10793,66 @@ var author$project$Main$view = function (model) {
 					]),
 				_List_fromArray(
 					[
+						A2(
+						elm$html$Html$table,
+						_List_Nil,
+						_List_fromArray(
+							[
+								A2(
+								elm$html$Html$thead,
+								_List_Nil,
+								_List_fromArray(
+									[
+										A2(
+										elm$html$Html$th,
+										_List_Nil,
+										_List_fromArray(
+											[
+												elm$html$Html$text('To DO')
+											])),
+										A2(
+										elm$html$Html$th,
+										_List_Nil,
+										_List_fromArray(
+											[
+												elm$html$Html$text('In Progress')
+											])),
+										A2(
+										elm$html$Html$th,
+										_List_Nil,
+										_List_fromArray(
+											[
+												elm$html$Html$text('Done')
+											]))
+									])),
+								A2(
+								elm$html$Html$tr,
+								_List_Nil,
+								_List_fromArray(
+									[
+										A2(
+										elm$html$Html$td,
+										_List_Nil,
+										_List_fromArray(
+											[
+												elm$html$Html$text('Total')
+											])),
+										A2(
+										elm$html$Html$td,
+										_List_Nil,
+										_List_fromArray(
+											[
+												elm$html$Html$text('jhgjhgjh')
+											])),
+										A2(
+										elm$html$Html$td,
+										_List_Nil,
+										_List_fromArray(
+											[
+												elm$html$Html$text('2222')
+											]))
+									]))
+							])),
 						A2(
 						elm$html$Html$form,
 						_List_fromArray(
