@@ -199,19 +199,24 @@ button, input[type=submit] {
   opacity: 0.2;
   width: 270px;
 }
-@import "compass/css3";
-$breakpoint-alpha: 480px;
+
+
 .rwd-table {
   background: #34495E;
   color: #fff;
+  border: 1px solid black;
   border-radius: .4em;
   overflow: hidden;
+   margin: 1em 0;
+  min-width: 900px; // adjust to your needs
   tr {
     border-color: lighten(#34495E, 10%);
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
   }
   th, td {
     margin: .5em 1em;
-    @media (min-width: $breakpoint-alpha) { 
+    @media (min-width: 900px) { 
       padding: 1em !important; 
     }
   }
