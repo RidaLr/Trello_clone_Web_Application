@@ -178,24 +178,13 @@ view model =
                 (List.map viewUser model.users)
             ]
         , section [ id "tasks" ]
-            div[class "drag-container"]
-              [ul[class "drag-list"]
-                [li [class "drag-column drag-column-on-hold"]
-                  span [class "drag-column-header"]
-                    [text("On Hold")]
-
-                  ]],
             [ Html.form [ action "/tasks/", id "task-form", method "POST", onSubmit TaskSubmitted ]
-                [ input
-                    [ name "content"
-                    , placeholder "Say something nice!"
-                    , value model.newTask
-                    , type_ "text"
-                    , onInput TaskUpdated
-                    ]
-                    []
-                , input [ type_ "submit", value "Share!" ] []
+                [ input [ id "txt-entered" ] []
+                , input [ id "btn-add", type_ "submit", value "+" ] []
                 ]
+                , text (" TASKS TO DO:")
+
+                
             , ul [ id "task-list" ]
                 (List.map viewTask model.tasks)
             ]
