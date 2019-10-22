@@ -4,8 +4,8 @@ class Task:
     def __init__(self, content, author_id, status):
         self.content = content
         self.author_id = author_id
-        self.timestamp = datetime.datetime.now().timestamp()
         self.status = status
+        self.timestamp = datetime.datetime.now().timestamp()
         
     def insert(self, cursor):
         cursor.execute('''

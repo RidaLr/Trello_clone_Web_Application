@@ -151,7 +151,7 @@ update msg model =
 
             else
                 ( { model | newTask = "" }
-                , Http.task
+                , Http.post
                     { url = "/tasks/"
                     , expect = Http.expectWhatever (\_ -> NoOp)
                     , body = Http.jsonBody <| Encode.object [ ( "taskToDo", Encode.string model.newTask ) ]
