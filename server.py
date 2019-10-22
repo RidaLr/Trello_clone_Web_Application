@@ -170,6 +170,7 @@ def get_user_status(user_rowid):
     return user.status
 
 def broadcast_user_list(cursor):
+    print("send users")
     io.emit('userlist', [
         { "name": u.name,
           "rowid": u.rowid,
@@ -178,6 +179,7 @@ def broadcast_user_list(cursor):
         for u in UserForLogin.getAll(cursor)
       ]
   , broadcast=True)
+    print("users sent")
 
 @io.on('connect')
 def ws_connect():
