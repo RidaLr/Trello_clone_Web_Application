@@ -12,9 +12,20 @@
 <main id="main-content">
 
 </main>
-
+<script src="//cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js" integrity="sha256-yr4fRk/GU1ehYJPAs8P4JlTgu0Hdsp4ZKrx8bDEDC3I=" crossorigin="anonymous"></script>
 <script type="text/javascript" charset="utf-8">
+var socket = io();
 var app = Elm.Main.init({ node: document.querySelector('#main-content')});
-</script>
 
+socket.on('userlist', function(userlist){
+  console.log("Userlist received:", userlist);
+  app.ports.userlistPort.send(userlist);
+});
+
+socket.on('tasklist', function(tasklist){
+console.log("Tasklist received:", tasklist);
+app.ports.tasklistPort.send(tasklist);
+});
+
+</script>
 {% endblock %}
