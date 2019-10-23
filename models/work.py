@@ -48,4 +48,4 @@ class WorkForDisplay:
           ORDER BY timestamp DESC
       ''')
       return [ cls(row) for row in cursor.fetchall() ]
-    
+    */

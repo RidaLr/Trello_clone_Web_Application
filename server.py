@@ -175,6 +175,7 @@ def broadcast_user_list(cursor):
         { "name": u.name,
           "rowid": u.rowid,
           "status": get_user_status(u.rowid),
+         "role": u.role,
         }
         for u in UserForLogin.getAll(cursor)
       ]
@@ -187,7 +188,7 @@ def ws_connect():
         raise ConnectionRefusedError('unauthorized!')
 
     user = flask_login.current_user
-    CONNECTED_USERS[user.rowid] = ConnectedUser(user.rowid, user.name, request.sid)
+    CONNECTED_USERS[user.rowid] = ConnectedUser(user.rowid, user.name, request.sid, user.role)
     
     db = get_db()
     cur = db.cursor()
