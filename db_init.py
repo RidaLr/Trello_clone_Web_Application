@@ -18,13 +18,14 @@ Task.create_table(cur)
 
 
 users = [
-    User("Ford", "ford@betelgeuse.star", "12345"),
-    User("Arthur", "arthur@earth.planet", "12345"),
+    User("Rida", "rida@trello.com", "12345", "Admin"),
+    User("Pavel", "pavel@trello.com", "12345", "Admin"),
+    User("Toto", "toto@trello.com", "12345", "Collaborator")
 ]
 
 tasks = [
-    Task(content="Do homework", author_id="ford@betelgeuse.star",status="ToDo"),
-    Task(content="Do AWS project", author_id="arthur@earth.planet",status="Done"),
+    Task(content="Do homework", author_id="rida@trello.com",status="ToDo"),
+    Task(content="Do AWS project", author_id="pavel@trello.com",status="Done"),
 ]
 
 for user in users:

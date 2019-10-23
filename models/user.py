@@ -45,6 +45,7 @@ class UserForLogin(flask_login.UserMixin):
         self.email = row['email']
         self.password_hash = row['password_hash']
         self.name = row['name']
+        self.role = row['role']
         self.rowid = row['rowid']
     
     def check_password(self, password):
@@ -56,7 +57,7 @@ class UserForLogin(flask_login.UserMixin):
     @classmethod
     def getByEmail(cls, cursor, email):
         cursor.execute('''
-            SELECT rowid, email, password_hash, name
+            SELECT rowid, email, password_hash, name, role
             FROM users
             WHERE email = ?
         ''', (email,))
@@ -69,13 +70,14 @@ class UserForLogin(flask_login.UserMixin):
     
     @classmethod
     def getAll(cls, cursor):
-      cursor.execute('SELECT rowid, name, email, password_hash FROM users')
+      cursor.execute('SELECT rowid, name, email, password_hash, role FROM users')
       return [ cls(row) for row in cursor.fetchall() ]
 
 class ConnectedUser:
-    def __init__(self, rowid, name, socket_id):
+    def __init__(self, rowid, name, role, socket_id):
         self.rowid = rowid
         self.name = name
+        self.role = role
         self.socket_id = socket_id
         self.status = 'AVAILABLE'
 
