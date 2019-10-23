@@ -1,12 +1,12 @@
 import datetime
 
-class Column:
-    def __init__(self, titles):
+class Table:
+    def __init__(self, title):
         self.title = title
         
     def insert(self, cursor):
         cursor.execute('''
-          INSERT INTO tasks 
+          INSERT INTO column 
           ( title
           )
           VALUES 
@@ -52,3 +52,4 @@ class TaskForDisplay:
           ORDER BY timestamp DESC
       ''')
       return [ cls(row) for row in cursor.fetchall() ]
+    
