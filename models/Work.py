@@ -1,25 +1,25 @@
 import datetime
 
-class Table:
-    def __init__(self, title):
+class Work:
+    def __init__(self, title, creator_id):
         self.title = title
+        self.creator_id = creator_id
         
     def insert(self, cursor):
         cursor.execute('''
-          INSERT INTO column 
-          ( title
+          INSERT INTO work 
+          ( title,
+            creator_id
           )
           VALUES 
-          ( ?)
-        ''', (self.content, self.author_id, self.timestamp, self.status)
+          ( ?, ?)
+        ''', (self.title, self.creator_id)
         )
         
     def __repr__(self):
-        return "[Post by %s at %s: %s %s]"%(
-            self.author_id, 
-            str(datetime.datetime.fromtimestamp(self.timestamp)),
-            self.content[:50],
-            self.status
+        return "[Table : %s By: %s]"%(
+            self.title,
+            self.author_id
         )
 
     @classmethod
@@ -27,7 +27,7 @@ class Table:
         cursor.execute('DROP TABLE IF EXISTS tasks')
 
         cursor.execute('''
-        CREATE TABLE tasks
+        CREATE TABLE Work
         ( author_id TEXT NOT NULL
         , content TEXT
         , timestamp DOUBLE
