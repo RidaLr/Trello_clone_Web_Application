@@ -2,10 +2,11 @@ import flask_login
 from werkzeug.security import generate_password_hash, check_password_hash
 
 class User:
-    def __init__(self, name, email, password):
+    def __init__(self, name, email, password, role):
         self.name = name
         self.email = email
         self.set_password(password)
+        self.role = role
 
     def set_password(self, password):
         self.password_hash = generate_password_hash(password)
@@ -17,10 +18,11 @@ class User:
           ( name
           , email
           , password_hash
+          , role
           )
           VALUES 
-          ( ?, ?, ?)
-        ''', (self.name, self.email, self.password_hash)
+          ( ?, ?, ?, ?)
+        ''', (self.name, self.email, self.password_hash, self.role)
         )
         
     def __repr__(self):
@@ -35,6 +37,7 @@ class User:
         ( name TEXT NOT NULL
         , password_hash TEXT NOT NULL
         , email TEXT NOT NULL PRIMARY KEY
+        , role TEXT
         )''')
 
 class UserForLogin(flask_login.UserMixin):
