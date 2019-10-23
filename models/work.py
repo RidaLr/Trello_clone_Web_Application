@@ -33,20 +33,18 @@ class Work:
         , FOREIGN KEY (creator_id) REFERENCES users(email)
         )''')
 
-class TaskForDisplay:
+class WorkForDisplay:
     def __init__(self, row):
         self.author_name = row['author_name']
-        self.date = datetime.datetime.fromtimestamp(row['timestamp'])
-        self.content = row['content']
-        self.status = row['status']
+        self.dtitle = title
    
     
     @classmethod
     def getAll(cls, cursor):
       cursor.execute('''
-          SELECT name AS author_name, content, timestamp ,status
-          FROM tasks
-          JOIN users ON author_id=email
+          SELECT name AS author_name, title
+          FROM work
+          JOIN users ON creator_id=email
           ORDER BY timestamp DESC
       ''')
       return [ cls(row) for row in cursor.fetchall() ]
