@@ -17,22 +17,20 @@ class Work:
         )
         
     def __repr__(self):
-        return "[Table : %s By: %s]"%(
+        return "[Work : %s By: %s]"%(
             self.title,
             self.author_id
         )
 
     @classmethod
     def create_table(cls, cursor):
-        cursor.execute('DROP TABLE IF EXISTS tasks')
+        cursor.execute('DROP TABLE IF EXISTS work')
 
         cursor.execute('''
-        CREATE TABLE Work
-        ( author_id TEXT NOT NULL
-        , content TEXT
-        , timestamp DOUBLE
-        , status TEXT
-        , FOREIGN KEY (author_id) REFERENCES users(email)
+        CREATE TABLE work
+        ( creator_id TEXT NOT NULL
+        , title TEXT
+        , FOREIGN KEY (creator_id) REFERENCES users(email)
         )''')
 
 class TaskForDisplay:
