@@ -3,7 +3,7 @@ port module Main exposing (main)
 import Browser
 import Html exposing (..)
 import Html.Attributes as Attributes exposing (..)
-import Html.Events exposing (onClick, onInput, onSubmit)
+import Html.Events exposing (..)
 import Http
 import Json.Decode as Decode exposing (Decoder, Value)
 import Json.Encode as Encode
@@ -218,6 +218,11 @@ view model =
                     , onInput TaskUpdated ] []
                   , input [type_ "submit", value "+" ] []
                   ]
+                ,Progress.progressMulti
+    [ [ Progress.value 20, Progress.success, Progress.label "Success" ]
+    , [ Progress.value 30, Progress.info, Progress.label "Info" ]
+    , [ Progress.value 40, Progress.danger, Progress.label "Danger" ]
+    ]
                 , ul [ id "task-list" ]
                     (List.map viewTask model.tasks)
                 ]
