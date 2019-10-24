@@ -60,7 +60,7 @@ class UserForLogin(flask_login.UserMixin):
             SELECT rowid, email, password_hash, name, role
             FROM users
             WHERE email = ?
-        ''', (email))
+        ''', (email,))
 
         row = cursor.fetchone()
         if row is None:
