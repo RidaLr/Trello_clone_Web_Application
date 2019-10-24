@@ -10770,7 +10770,7 @@ var author$project$Main$viewTask = function (task) {
 							]),
 						_List_fromArray(
 							[
-								elm$html$Html$text(task.authorName)
+								elm$html$Html$text(task.content)
 							])),
 						A2(
 						elm$html$Html$span,
@@ -10780,18 +10780,8 @@ var author$project$Main$viewTask = function (task) {
 							]),
 						_List_fromArray(
 							[
-								elm$html$Html$text('at ' + task.date)
+								elm$html$Html$text(task.authorName + ('at ' + task.date))
 							]))
-					])),
-				A2(
-				elm$html$Html$div,
-				_List_fromArray(
-					[
-						elm$html$Html$Attributes$class('task-content')
-					]),
-				_List_fromArray(
-					[
-						elm$html$Html$text(task.content)
 					]))
 			]));
 };

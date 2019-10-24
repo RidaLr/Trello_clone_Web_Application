@@ -227,13 +227,13 @@ view model =
 
 viewTask : Task -> Html Msg
 viewTask task =
+    
     li [ class "task" ]
         [ div [ class "task-header" ]
             [ span [ class "task-author" ]
-                [ text task.authorName ]
-            , span [ class "task-date" ] [ text <| "at " ++ task.date ]
+                [ text task.content]
+            , span [ class "task-date" ] [text <| task.authorName ++ "at " ++ task.date ]
             ]
-        , div [ class "task-content" ] [ text task.content ]
         ]
 
 
