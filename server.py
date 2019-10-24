@@ -182,6 +182,18 @@ def broadcast_user_list(cursor):
   , broadcast=True)
     print("users sent")
 
+def broadcast_task_list(cursor):
+    io.emit('tasklist', [
+        { "author_name": t.author_name,
+          "content": t.content,
+          "date": t.date.strftime("%m/%d/%Y, %H:%M:%S"),
+          "status": t.status,
+        }
+        for t in TasktForDisplay.getAll(cursor)
+      ]
+  , broadcast=True)
+    
+    
 @io.on('connect')
 def ws_connect():
     if not flask_login.current_user.is_authenticated:
@@ -194,6 +206,7 @@ def ws_connect():
     cur = db.cursor()
   
     broadcast_user_list(cur)
+    broadcast_task_list(cur)
 
 @io.on('disconnect')
 def ws_disconnect():
