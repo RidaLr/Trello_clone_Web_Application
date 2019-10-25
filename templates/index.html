@@ -27,5 +27,10 @@ socket.on('tasklist', function(tasklist){
   app.ports.tasklistPort.send(tasklist);
 });
 
+socket.on('columntasklist', function(tasklist){
+  console.log("Tasklist received:", tasklist);
+  app.ports.tasklistPort.send(tasklist);
+});
+  
 </script>
 {% endblock %}
