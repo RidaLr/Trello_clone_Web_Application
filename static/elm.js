@@ -10780,7 +10780,7 @@ var author$project$Main$viewTask = function (task) {
 							]),
 						_List_fromArray(
 							[
-								elm$html$Html$text(task.authorName + ('at ' + task.date))
+								elm$html$Html$text(task.authorName + (' at ' + task.date))
 							]))
 					]))
 			]));

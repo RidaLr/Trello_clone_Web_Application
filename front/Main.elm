@@ -233,7 +233,7 @@ viewTask task =
         [ div [ class "task-header" ]
             [ span [ class "task-author" ]
                 [ text task.content]
-            , span [ class "task-date" ] [text <| task.authorName ++ "at " ++ task.date ]
+            , span [ class "task-date" ] [text <| task.authorName ++ " at " ++ task.date ]
             ]
         ]
 

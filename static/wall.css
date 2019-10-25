@@ -4,13 +4,7 @@
   height: calc(100vh - 86px);
   
 }
-#game {
-  grid-column: 6/ span 3;
-  grid-row: 4/ span 2;
-  z-index:10;
-  padding : 10px;
-  background-color: #ffa7a7;
-}
+
 #user-list {
   grid-column: 9 / span 3;
   grid-row: 1/ span 5;
@@ -64,7 +58,6 @@ ul#task-list {
   display: block;
   width: 80%;
   margin-bottom: 25px;
-  
 }
 
 .task-header {

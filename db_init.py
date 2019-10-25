@@ -2,6 +2,8 @@ import sqlite3
 
 from models.user import User
 from models.task import Task
+from models.column import Column
+from models.table import Work
 
 def make_dicts(cursor, row):
     return dict((cursor.description[idx][0], value)
@@ -15,6 +17,8 @@ cur = db.cursor()
 
 User.create_table(cur)
 Task.create_table(cur)
+Column.create_table(cur)
+Work.create_table(cur)
 
 
 users = [
@@ -28,12 +32,30 @@ tasks = [
     Task(content="Do AWS project", author_id="pavel@trello.com",status="Done"),
 ]
 
+tables = [
+    Work(content="Do homework", author_id="rida@trello.com",status="ToDo"),
+    Work(content="Do AWS project", author_id="pavel@trello.com",status="Done"),
+]
+
+columns = [
+    Column(content="Do homework", author_id="rida@trello.com",status="ToDo"),
+    Column(content="Do AWS project", author_id="pavel@trello.com",status="Done"),
+]
+
+
+
 for user in users:
     user.insert(cur)
 
 for task in tasks:
     task.insert(cur)
 
+for table in tables:
+    table.insert(cur)
+    
+for column in tasks:
+    task.insert(cur)
+    
 db.commit()
 
 print("The following users has been inserted into the DB"

@@ -186,10 +186,10 @@ def broadcast_task_list(cursor):
     io.emit('tasklist', [
         { "author_name": t.author_name,
           "content": t.content,
-          "date": t.date.strftime("%m/%d/%Y, %H:%M:%S"),
+          "date": t.date.strftime("%m/%d/%Y"),
           "status": t.status,
         }
-        for t in TasktForDisplay.getAll(cursor)
+        for t in TaskForDisplay.getAll(cursor)
       ]
   , broadcast=True)
     
