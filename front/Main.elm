@@ -15,7 +15,7 @@ port columnlistPort : (Value -> msg) -> Sub msg
 type alias Model =
     { tasks : List Task
     , columns : List Column
-    , tables : List Work
+    , tables : List Table
     , users : List User
     , newTask : String
     }
@@ -59,6 +59,7 @@ type UserStatus
 type Msg
     = GotUserlist (List User)
     | GotTasks (List Task)
+    | GotTables (List Task)
     | DecodeError Decode.Error
     | TaskUpdated String
     | TaskSubmitted
@@ -151,6 +152,8 @@ decodeExternalColumnlist val =
 initialModel : Model
 initialModel =
     { tasks = []
+    , columns = []
+    , tables = []
     , users = []
     , newTask = ""
     }

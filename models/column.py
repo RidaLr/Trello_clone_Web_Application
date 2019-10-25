@@ -47,6 +47,6 @@ class ColumnForDisplay:
           SELECT rowid, title
           FROM column c
           LEFT JOIN task t ON c.rowid=t.column_id
-          ORDER BY timestamp DESC
+          ORDER BY t.timestamp ASC
       ''')
       return [ cls(row) for row in cursor.fetchall() ]
