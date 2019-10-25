@@ -7,10 +7,10 @@ class Column:
     def insert(self, cursor):
         cursor.execute('''
           INSERT INTO column
-          ( title)
+          (title)
           VALUES 
           (?)
-        ''', (self.title)
+        ''', (self.title,)
         )
         
     def __repr__(self):
@@ -27,7 +27,7 @@ class Column:
 
         cursor.execute('''
         CREATE TABLE column
-        ( title TEXT NOT NULL
+        ( title TEXT NOT NULL PRIMARY KEY
         )''')
 
 class ColumnForDisplay:

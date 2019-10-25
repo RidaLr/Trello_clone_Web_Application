@@ -24,7 +24,7 @@ Work.create_table(cur)
 users = [
     User("Rida", "rida@trello.com", "12345", "Admin"),
     User("Pavel", "pavel@trello.com", "12345", "Admin"),
-    User("Toto", "toto@trello.com", "12345", "Collaborator")
+    User("Toto", "toto@trello.com", "12345", "Collaborator"),
 ]
 
 tasks = [
@@ -39,9 +39,9 @@ tables = [
 ]
 
 columns = [
-    Column(title="To Do"),
-    Column(title="In Progress"),
-    Column(title="Done"),
+    Column(title="To Do", table_id = 1),
+    Column(title="In Progress", table_id = 2),
+    Column(title="Done", table_id = 3),
 ]
 
 
