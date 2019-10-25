@@ -43,7 +43,7 @@ type alias Column =
 
 type alias Table =
     { title : String
-    , authorName : String
+    , creatorName : String
     }
 
 type TaskStatus

@@ -42,6 +42,7 @@ class Task:
         , timestamp DOUBLE
         , status TEXT
         , FOREIGN KEY (author_id) REFERENCES users(email)
+        , FOREIGN KEY (column_id) REFERENCES column(rowid)
         )''')
 
 class TaskForDisplay:

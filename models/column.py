@@ -45,8 +45,8 @@ class ColumnForDisplay:
     def getAll(cls, cursor):
       cursor.execute('''
           SELECT rowid, title
-          FROM column
-          JOIN users ON author_id=email
+          FROM column c
+          LEFT JOIN task t ON c.rowid=t.column_id
           ORDER BY timestamp DESC
       ''')
       return [ cls(row) for row in cursor.fetchall() ]
