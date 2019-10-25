@@ -166,7 +166,7 @@ def search():
   #cur = db.cursor()
   #cur.execute("SELECT key, url FROM shortcuts WHERE url LIKE ?", ('%' + query + '%',))
   works = TaskForDisplay.getAll(cursor)
-  return redirect('index.html', works=works)
+  return jsonify(works=works)
 
   
 ## Rowid -> User
