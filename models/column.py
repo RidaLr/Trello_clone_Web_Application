@@ -9,7 +9,7 @@ class Column:
           INSERT INTO column
           ( title )
           VALUES 
-          ( ?)
+          (?)
         ''', (self.title)
         )
         
@@ -27,7 +27,8 @@ class Column:
 
         cursor.execute('''
         CREATE TABLE column
-        ( title TEXT NOT NULL
+        ( title TEXT NOT NULL,
+        table_id TEXT
         )''')
 
 class ColumnForDisplay:
