@@ -1,18 +1,16 @@
 import datetime
 
 class Column:
-    def __init__(self, title,table_id):
-        self.title = title,
-        self.table_id = table_id
+    def __init__(self, title):
+        self.title = title
         
     def insert(self, cursor):
         cursor.execute('''
           INSERT INTO column
-          ( title
-          , table_id )
+          ( title)
           VALUES 
-          (?, ?)
-        ''', (self.title, self.table_id)
+          (?)
+        ''', (self.title)
         )
         
     def __repr__(self):
@@ -29,9 +27,7 @@ class Column:
 
         cursor.execute('''
         CREATE TABLE column
-        ( title TEXT NOT NULL,
-          table_id TEXT NOT NULL,
-          FOREIGN KEY (table_id) REFERENCES work (rowid)
+        ( title TEXT NOT NULL
         )''')
 
 class ColumnForDisplay:

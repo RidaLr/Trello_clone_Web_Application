@@ -39,9 +39,9 @@ tables = [
 ]
 
 columns = [
-    Column(title="To Do", table_id = 1),
-    Column(title="In Progress", table_id = 2),
-    Column(title="Done", table_id = 3),
+    Column(title="To Do"),
+    Column(title="In Progress"),
+    Column(title="Done"),
 ]
 
 
