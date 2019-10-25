@@ -2,12 +2,14 @@ import datetime
 
 class Column:
     def __init__(self, title,table_id):
-        self.title = title
+        self.title = title,
+        self.table_id = table_id
         
     def insert(self, cursor):
         cursor.execute('''
           INSERT INTO column
-          ( title, table_id )
+          ( title
+          , table_id )
           VALUES 
           (?, ?)
         ''', (self.title, self.table_id)
@@ -28,7 +30,7 @@ class Column:
         cursor.execute('''
         CREATE TABLE column
         ( title TEXT NOT NULL,
-          table_id INTEGER NOT NULL,
+          table_id TEXT NOT NULL,
           FOREIGN KEY (table_id) REFERENCES work (rowid)
         )''')
 
