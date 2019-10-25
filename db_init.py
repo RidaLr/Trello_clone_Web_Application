@@ -53,8 +53,8 @@ for task in tasks:
 for table in tables:
     table.insert(cur)
     
-for column in tasks:
-    task.insert(cur)
+for column in columns:
+    column.insert(cur)
     
 db.commit()
 
@@ -69,3 +69,13 @@ print()
 print("Here are the posts inserted:")
 for task in tasks:
     print("\t", task)
+    
+print()
+print("Here are the tables inserted:")
+for table in tables:
+    print("\t", table)
+    
+print()
+print("Here are the columns inserted:")
+for column in columns:
+    print("\t", column)
