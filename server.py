@@ -182,15 +182,15 @@ def broadcast_user_list(cursor):
   , broadcast=True)
     print("users sent")
     
-    def broadcast__list(cursor):
-    print("send users")
-    io.emit('userlist', [
-        { "name": u.name,
+    def broadcast_column_list(cursor):
+    print("send columns")
+    io.emit('columnlist', [
+        { "name": l.title,
           "rowid": u.rowid,
           "status": get_user_status(u.rowid),
          "role": u.role,
         }
-        for u in UserForLogin.getAll(cursor)
+        for l in UserForLogin.getAll(cursor)
       ]
   , broadcast=True)
     print("users sent")

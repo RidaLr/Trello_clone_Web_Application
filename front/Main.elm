@@ -10,9 +10,12 @@ import Json.Encode as Encode
 
 port userlistPort : (Value -> msg) -> Sub msg
 port tasklistPort : (Value -> msg) -> Sub msg
+port columnlistPort : (Value -> msg) -> Sub msg
 
 type alias Model =
     { tasks : List Task
+    , columns : List Column
+    , tables : List Work
     , users : List User
     , newTask : String
     }
@@ -25,6 +28,20 @@ type alias Task =
     , status : String
     }
 
+
+type alias User =
+    { name : String
+    , status : UserStatus
+    , rowid : Int
+    }
+    
+
+type alias User =
+    { name : String
+    , status : UserStatus
+    , rowid : Int
+    }
+    
 
 type alias User =
     { name : String
@@ -124,6 +141,15 @@ decodeExternalUserlist val =
         Err err ->
             DecodeError err
 
+
+decodeExternalColumnlist : Value -> Msg
+decodeExternalColumnlist val =
+    case Decode.decodeValue (Decode.list userDecoder) val of
+        Ok userlist ->
+            GotUserlist userlist
+
+        Err err ->
+            DecodeError err
 
 initialModel : Model
 initialModel =
@@ -257,7 +283,8 @@ subscriptions : Model -> Sub Msg
 subscriptions model =
     Sub.batch
         [ userlistPort decodeExternalUserlist,
-         tasklistPort decodeExternalTasklist ]
+         tasklistPort decodeExternalTasklist
+         columnlistPort decodeExternalColumnlist]
          
 main : Program () Model Msg
 main =

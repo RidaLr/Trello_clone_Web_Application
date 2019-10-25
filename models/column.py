@@ -3,17 +3,15 @@ import datetime
 class Column:
     def __init__(self, title,table_id):
         self.title = title
-        self.table_id = table_id
         
     def insert(self, cursor):
         cursor.execute('''
           INSERT INTO column
           ( title
-          , table_id
           )
           VALUES 
-          ( ?, ?)
-        ''', (self.title, self.column_id)
+          ( ?)
+        ''', (self.title)
         )
         
     def __repr__(self):
@@ -37,19 +35,17 @@ class Column:
         , FOREIGN KEY (author_id) REFERENCES users(email)
         )''')
 
-class TaskForDisplay:
+class ColumnForDisplay:
     def __init__(self, row):
-        self.author_name = row['author_name']
-        self.date = datetime.datetime.fromtimestamp(row['timestamp'])
-        self.content = row['content']
-        self.status = row['status']
+        self.id = row['rowid']
+        self.title = row['title']
    
     
     @classmethod
     def getAll(cls, cursor):
       cursor.execute('''
-          SELECT name AS author_name, content, timestamp ,status
-          FROM tasks
+          SELECT rowid, title
+          FROM column
           JOIN users ON author_id=email
           ORDER BY timestamp DESC
       ''')
