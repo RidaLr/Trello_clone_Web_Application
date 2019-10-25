@@ -1,7 +1,7 @@
 import datetime
 
 class Task:
-    def __init__(self, content, author_id, column status):
+    def __init__(self, content, author_id, column_id, status):
         self.content = content
         self.author_id = author_id
         self.column_id = column_id
@@ -13,12 +13,13 @@ class Task:
           INSERT INTO tasks 
           ( content
           , author_id
+          , column_id
           , timestamp
           , status
           )
           VALUES 
-          ( ?, ?, ?, ?)
-        ''', (self.content, self.author_id, self.timestamp, self.status)
+          ( ?, ?, ?, ?, ?)
+        ''', (self.content, self.author_id, self.column_id, self.timestamp, self.status)
         )
         
     def __repr__(self):
@@ -36,6 +37,7 @@ class Task:
         cursor.execute('''
         CREATE TABLE tasks
         ( author_id TEXT NOT NULL
+        , column_id TEXT NOT NULL
         , content TEXT
         , timestamp DOUBLE
         , status TEXT
