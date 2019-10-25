@@ -1,6 +1,6 @@
 import datetime
 
-class Task:
+class Column:
     def __init__(self, title,table_id):
         self.title = title
         self.table_id = table_id
@@ -9,13 +9,11 @@ class Task:
         cursor.execute('''
           INSERT INTO column
           ( title
-          , author_id
-          , timestamp
-          , status
+          , table_id
           )
           VALUES 
-          ( ?, ?, ?, ?)
-        ''', (self.content, self.author_id, self.timestamp, self.status)
+          ( ?, ?)
+        ''', (self.title, self.column_id)
         )
         
     def __repr__(self):

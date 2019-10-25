@@ -206,7 +206,7 @@ def ws_connect():
     cur = db.cursor()
   
     broadcast_user_list(cur)
-    #broadcast_task_list(cur)
+    broadcast_task_list(cur)
 
 @io.on('disconnect')
 def ws_disconnect():

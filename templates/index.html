@@ -23,8 +23,8 @@ socket.on('userlist', function(userlist){
 });
 
 socket.on('tasklist', function(tasklist){
-console.log("Tasklist received:", tasklist);
-app.ports.tasklistPort.send(tasklist);
+  console.log("Tasklist received:", tasklist);
+  app.ports.tasklistPort.send(tasklist);
 });
 
 </script>
