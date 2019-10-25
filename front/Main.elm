@@ -53,7 +53,7 @@ type UserStatus
 type Msg
     = GotUserlist (List User)
     | GotTasks (List Task)
-    | GotColumnlist
+    | GotColumns (List Column)
     | DecodeError Decode.Error
     | TaskUpdated String
     | TaskSubmitted
@@ -143,7 +143,7 @@ decodeExternalColumnlist : Value -> Msg
 decodeExternalColumnlist val =
     case Decode.decodeValue (Decode.list columnDecoder) val of
         Ok columnlist ->
-            GotColumnlist columnlist
+            GotColumns columnlist
 
         Err err ->
             DecodeError err
@@ -163,9 +163,12 @@ update msg model =
         GotUserlist users ->
             ( { model | users = users }, Cmd.none )
 
+        GotColumns columns ->
+            ( { model | columns = columns }, Cmd.none )
+            
         GotTasks tasks ->
             ( { model | tasks = tasks }, Cmd.none )
-
+        
         TaskUpdated newTask ->
             ( { model | newTask = newTask }, Cmd.none )
 

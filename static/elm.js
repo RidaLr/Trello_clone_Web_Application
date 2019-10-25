@@ -10573,9 +10573,33 @@ var author$project$Register$main = elm$browser$Browser$element(
 		update: author$project$Register$update,
 		view: author$project$Register$view
 	});
-var author$project$Main$initialModel = {newTask: '', tasks: _List_Nil, users: _List_Nil};
+var author$project$Main$initialModel = {columns: _List_Nil, newTask: '', tasks: _List_Nil, users: _List_Nil};
+var author$project$Main$columnlistPort = _Platform_incomingPort('columnlistPort', elm$json$Json$Decode$value);
 var author$project$Main$DecodeError = function (a) {
 	return {$: 'DecodeError', a: a};
+};
+var author$project$Main$GotColumns = function (a) {
+	return {$: 'GotColumns', a: a};
+};
+var author$project$Main$Column = function (title) {
+	return {title: title};
+};
+var author$project$Main$columnDecoder = A2(
+	elm$json$Json$Decode$map,
+	author$project$Main$Column,
+	A2(elm$json$Json$Decode$field, 'title', elm$json$Json$Decode$string));
+var author$project$Main$decodeExternalColumnlist = function (val) {
+	var _n0 = A2(
+		elm$json$Json$Decode$decodeValue,
+		elm$json$Json$Decode$list(author$project$Main$columnDecoder),
+		val);
+	if (_n0.$ === 'Ok') {
+		var columnlist = _n0.a;
+		return author$project$Main$GotColumns(columnlist);
+	} else {
+		var err = _n0.a;
+		return author$project$Main$DecodeError(err);
+	}
 };
 var author$project$Main$GotTasks = function (a) {
 	return {$: 'GotTasks', a: a};
@@ -10656,7 +10680,8 @@ var author$project$Main$subscriptions = function (model) {
 		_List_fromArray(
 			[
 				author$project$Main$userlistPort(author$project$Main$decodeExternalUserlist),
-				author$project$Main$tasklistPort(author$project$Main$decodeExternalTasklist)
+				author$project$Main$tasklistPort(author$project$Main$decodeExternalTasklist),
+				author$project$Main$columnlistPort(author$project$Main$decodeExternalColumnlist)
 			]));
 };
 var author$project$Main$NoOp = {$: 'NoOp'};
@@ -10697,6 +10722,13 @@ var author$project$Main$update = F2(
 					_Utils_update(
 						model,
 						{users: users}),
+					elm$core$Platform$Cmd$none);
+			case 'GotColumns':
+				var columns = msg.a;
+				return _Utils_Tuple2(
+					_Utils_update(
+						model,
+						{columns: columns}),
 					elm$core$Platform$Cmd$none);
 			case 'GotTasks':
 				var tasks = msg.a;
@@ -11043,5 +11075,5 @@ var author$project$Main$main = elm$browser$Browser$element(
 		view: author$project$Main$view
 	});
 _Platform_export({'Main':{'init':author$project$Main$main(
-	elm$json$Json$Decode$succeed(_Utils_Tuple0))({"versions":{"elm":"0.19.0"},"types":{"message":"Main.Msg","aliases":{"Main.Task":{"args":[],"type":"{ authorName : String.String, content : String.String, date : String.String, status : String.String }"},"Main.User":{"args":[],"type":"{ name : String.String, status : Main.UserStatus, rowid : Basics.Int }"},"Json.Decode.Value":{"args":[],"type":"Json.Encode.Value"}},"unions":{"Main.Msg":{"args":[],"tags":{"GotUserlist":["List.List Main.User"],"GotTasks":["List.List Main.Task"],"DecodeError":["Json.Decode.Error"],"TaskUpdated":["String.String"],"TaskSubmitted":[],"NoOp":[]}},"Main.UserStatus":{"args":[],"tags":{"Disconnected":[],"Available":[]}},"Basics.Int":{"args":[],"tags":{"Int":[]}},"List.List":{"args":["a"],"tags":{}},"String.String":{"args":[],"tags":{"String":[]}},"Json.Decode.Error":{"args":[],"tags":{"Field":["String.String","Json.Decode.Error"],"Index":["Basics.Int","Json.Decode.Error"],"OneOf":["List.List Json.Decode.Error"],"Failure":["String.String","Json.Decode.Value"]}},"Json.Encode.Value":{"args":[],"tags":{"Value":[]}}}}})},'Register':{'init':author$project$Register$main(
+	elm$json$Json$Decode$succeed(_Utils_Tuple0))({"versions":{"elm":"0.19.0"},"types":{"message":"Main.Msg","aliases":{"Main.Column":{"args":[],"type":"{ title : String.String }"},"Main.Task":{"args":[],"type":"{ authorName : String.String, content : String.String, date : String.String, status : String.String }"},"Main.User":{"args":[],"type":"{ name : String.String, status : Main.UserStatus, rowid : Basics.Int }"},"Json.Decode.Value":{"args":[],"type":"Json.Encode.Value"}},"unions":{"Main.Msg":{"args":[],"tags":{"GotUserlist":["List.List Main.User"],"GotTasks":["List.List Main.Task"],"GotColumns":["List.List Main.Column"],"DecodeError":["Json.Decode.Error"],"TaskUpdated":["String.String"],"TaskSubmitted":[],"NoOp":[]}},"Main.UserStatus":{"args":[],"tags":{"Disconnected":[],"Available":[]}},"Basics.Int":{"args":[],"tags":{"Int":[]}},"List.List":{"args":["a"],"tags":{}},"String.String":{"args":[],"tags":{"String":[]}},"Json.Decode.Error":{"args":[],"tags":{"Field":["String.String","Json.Decode.Error"],"Index":["Basics.Int","Json.Decode.Error"],"OneOf":["List.List Json.Decode.Error"],"Failure":["String.String","Json.Decode.Value"]}},"Json.Encode.Value":{"args":[],"tags":{"Value":[]}}}}})},'Register':{'init':author$project$Register$main(
 	elm$json$Json$Decode$succeed(_Utils_Tuple0))({"versions":{"elm":"0.19.0"},"types":{"message":"Register.Msg","aliases":{"Register.TestEmail":{"args":[],"type":"{ email : String.String, free : Basics.Bool }"}},"unions":{"Register.Msg":{"args":[],"tags":{"EmailUpdated":["String.String"],"NameUpdated":["String.String"],"Password1Updated":["String.String"],"Password2Updated":["String.String"],"GotTestEmail":["Result.Result Http.Error Register.TestEmail"]}},"Basics.Bool":{"args":[],"tags":{"True":[],"False":[]}},"Result.Result":{"args":["error","value"],"tags":{"Ok":["value"],"Err":["error"]}},"String.String":{"args":[],"tags":{"String":[]}},"Http.Error":{"args":[],"tags":{"BadUrl":["String.String"],"Timeout":[],"NetworkError":[],"BadStatus":["Basics.Int"],"BadBody":["String.String"]}},"Basics.Int":{"args":[],"tags":{"Int":[]}}}}})}});}(this));
