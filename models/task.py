@@ -1,9 +1,10 @@
 import datetime
 
 class Task:
-    def __init__(self, content, author_id, status):
+    def __init__(self, content, author_id, column status):
         self.content = content
         self.author_id = author_id
+        self.column_id = column_id
         self.timestamp = datetime.datetime.now().timestamp()
         self.status = status
         

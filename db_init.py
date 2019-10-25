@@ -33,13 +33,13 @@ tasks = [
 ]
 
 tables = [
-    Work(content="Do homework", author_id="rida@trello.com",status="ToDo"),
-    Work(content="Do AWS project", author_id="pavel@trello.com",status="Done"),
+    Work(title="AWS Project", creator_id="rida@trello.com"),
+    Work(tile="Algorithm project", creator_id="pavel@trello.com"),
 ]
 
 columns = [
-    Column(content="Do homework", author_id="rida@trello.com",status="ToDo"),
-    Column(content="Do AWS project", author_id="pavel@trello.com",status="Done"),
+    Column(title="To Do", author_id="rida@trello.com",status="ToDo"),
+    Column(title="In Progress", author_id="pavel@trello.com",status="Done"),
 ]
 
 
