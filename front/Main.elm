@@ -36,17 +36,14 @@ type alias User =
     }
     
 
-type alias User =
-    { name : String
-    , status : UserStatus
-    , rowid : Int
+type alias Column =
+    { title : String
     }
     
 
-type alias User =
-    { name : String
-    , status : UserStatus
-    , rowid : Int
+type alias Table =
+    { title : String
+    , authorName : String
     }
 
 type TaskStatus
