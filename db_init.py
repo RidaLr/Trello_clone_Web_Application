@@ -28,8 +28,8 @@ users = [
 ]
 
 tasks = [
-    Task(content="Do homework", author_id="rida@trello.com",status="ToDo"),
-    Task(content="Do AWS project", author_id="pavel@trello.com",status="Done"),
+    Task(content="Do homework", author_id="rida@trello.com",status="ToDo", column = 1),
+    Task(content="Do AWS project", author_id="pavel@trello.com",status="Done", "2"),
 ]
 
 tables = [
@@ -44,14 +44,17 @@ columns = [
 ]
 
 tables = [
-    Column(title="Project ELM"),
-    Column(title="Project Cohen),
+    Column(title="Project ELM", creator_id="pavel@trello.com",),
+    Column(title="Project Cohen", creator_id="rida@trello.com",),
 ]
 
 
 
 for user in users:
     user.insert(cur)
+    
+for column in columns:
+    column.insert(cur)
 
 for task in tasks:
     task.insert(cur)
@@ -59,8 +62,7 @@ for task in tasks:
 for table in tables:
     table.insert(cur)
     
-for column in columns:
-    column.insert(cur)
+
     
 db.commit()
 
