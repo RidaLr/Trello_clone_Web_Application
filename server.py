@@ -159,6 +159,15 @@ def posts_task():
 
     return "ok", 201
 
+
+@app.route("/works/")
+def search():
+  #db = get_db()
+  #cur = db.cursor()
+  #cur.execute("SELECT key, url FROM shortcuts WHERE url LIKE ?", ('%' + query + '%',))
+  works = TaskForDisplay.getAll(cur)
+  return render_template('search.html', works=matches, query=query)
+
   
 ## Rowid -> User
 CONNECTED_USERS = {}
