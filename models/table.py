@@ -17,9 +17,8 @@ class Work:
         )
         
     def __repr__(self):
-        return "[Work : %s By: %s]"%(
+        return "[Work : %s]"%(
             self.title,
-            self.author_id
         )
 
     @classmethod

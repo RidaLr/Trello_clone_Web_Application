@@ -1,24 +1,23 @@
 import datetime
 
 class Column:
-    def __init__(self, title):
+    def __init__(self, title, table_id):
         self.title = title
+        self.table_id = table_id
         
     def insert(self, cursor):
         cursor.execute('''
           INSERT INTO column
-          (title)
+          (title, table_id)
           VALUES 
-          (?)
-        ''', (self.title,)
+          (?, ?)
+        ''', (self.title, self.table_id,)
         )
         
     def __repr__(self):
-        return "[Post by %s at %s: %s %s]"%(
-            self.author_id, 
-            str(datetime.datetime.fromtimestamp(self.timestamp)),
-            self.content[:50],
-            self.status
+        return "[Column title %s: for ID: %s]"%(
+            self.title, 
+            self.table_id
         )
 
     @classmethod
@@ -27,7 +26,9 @@ class Column:
 
         cursor.execute('''
         CREATE TABLE column
-        ( title TEXT NOT NULL PRIMARY KEY
+        ( title TEXT NOT NULL,
+        table_id INTEGER NOT NULL,
+        FOREIGN KEY (table_id) REFERENCES work(table_id)
         )''')
 
 class ColumnForDisplay:
