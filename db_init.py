@@ -43,6 +43,11 @@ columns = [
     Column(title="Done"),
 ]
 
+tables = [
+    Column(title="Project ELM"),
+    Column(title="Project Cohen),
+]
+
 
 
 for user in users:
