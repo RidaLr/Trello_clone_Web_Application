@@ -7,8 +7,7 @@ class Column:
     def insert(self, cursor):
         cursor.execute('''
           INSERT INTO column
-          ( title
-          )
+          ( title )
           VALUES 
           ( ?)
         ''', (self.title)

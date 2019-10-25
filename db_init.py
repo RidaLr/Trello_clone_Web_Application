@@ -38,8 +38,9 @@ tables = [
 ]
 
 columns = [
-    Column(title="To Do", author_id="rida@trello.com",status="ToDo"),
-    Column(title="In Progress", author_id="pavel@trello.com",status="Done"),
+    Column(title="To Do"),
+    Column(title="In Progress"),
+    Column(title="Done"),
 ]
 
 
