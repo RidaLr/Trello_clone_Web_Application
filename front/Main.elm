@@ -15,7 +15,6 @@ port columnlistPort : (Value -> msg) -> Sub msg
 type alias Model =
     { tasks : List Task
     , columns : List Column
-    , tables : List Table
     , users : List User
     , newTask : String
     }
@@ -41,11 +40,6 @@ type alias Column =
     }
     
 
-type alias Table =
-    { title : String
-    , creatorName : String
-    }
-
 type TaskStatus
     = ToDo
     | InProgress
@@ -59,7 +53,7 @@ type UserStatus
 type Msg
     = GotUserlist (List User)
     | GotTasks (List Task)
-    | GotTables (List Task)
+    | GotColumnlist
     | DecodeError Decode.Error
     | TaskUpdated String
     | TaskSubmitted
@@ -72,6 +66,11 @@ userDecoder =
         (Decode.field "name" Decode.string)
         (Decode.field "status" userStatusDecoder)
         (Decode.field "rowid" Decode.int)
+
+columnDecoder : Decoder Column
+columnDecoder =
+    Decode.map Column
+        (Decode.field "title" Decode.string)
 
 
 userStatusDecoder : Decoder UserStatus
@@ -142,9 +141,9 @@ decodeExternalUserlist val =
 
 decodeExternalColumnlist : Value -> Msg
 decodeExternalColumnlist val =
-    case Decode.decodeValue (Decode.list userDecoder) val of
-        Ok userlist ->
-            GotUserlist userlist
+    case Decode.decodeValue (Decode.list columnDecoder) val of
+        Ok columnlist ->
+            GotColumnlist columnlist
 
         Err err ->
             DecodeError err
@@ -153,7 +152,6 @@ initialModel : Model
 initialModel =
     { tasks = []
     , columns = []
-    , tables = []
     , users = []
     , newTask = ""
     }
@@ -283,7 +281,7 @@ subscriptions : Model -> Sub Msg
 subscriptions model =
     Sub.batch
         [ userlistPort decodeExternalUserlist,
-         tasklistPort decodeExternalTasklist
+         tasklistPort decodeExternalTasklist,
          columnlistPort decodeExternalColumnlist]
          
 main : Program () Model Msg

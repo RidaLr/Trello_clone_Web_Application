@@ -24,15 +24,11 @@ class Column:
 
     @classmethod
     def create_table(cls, cursor):
-        cursor.execute('DROP TABLE IF EXISTS tasks')
+        cursor.execute('DROP TABLE IF EXISTS column')
 
         cursor.execute('''
-        CREATE TABLE tasks
-        ( author_id TEXT NOT NULL
-        , content TEXT
-        , timestamp DOUBLE
-        , status TEXT
-        , FOREIGN KEY (author_id) REFERENCES users(email)
+        CREATE TABLE column
+        ( title TEXT NOT NULL
         )''')
 
 class ColumnForDisplay:
