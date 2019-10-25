@@ -16,7 +16,8 @@
 <script type="text/javascript" charset="utf-8">
   <ul>
   {% for row in works %}
-    <li>The url {{ url_for('redir', key=row['key'], _external=True) }} redirects to <a href="{{ row['url'] }}">{{ row['url'] }}</a></li>
+    <li>{{ Title is row['title'] }}</a></li>
+  {% endfor %}
 </script>
 var socket = io();
 var app = Elm.Main.init({ node: document.querySelector('#main-content')});
