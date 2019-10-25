@@ -1,12 +1,13 @@
 import datetime
 
 class Task:
-    def __init__(self, title):
+    def __init__(self, title,table_id):
         self.title = title
+        self.table_id = table_id
         
     def insert(self, cursor):
         cursor.execute('''
-          INSERT INTO column 
+          INSERT INTO column
           ( title
           , author_id
           , timestamp
