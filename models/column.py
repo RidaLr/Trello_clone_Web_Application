@@ -7,10 +7,10 @@ class Column:
     def insert(self, cursor):
         cursor.execute('''
           INSERT INTO column
-          ( title )
+          ( title, table_id )
           VALUES 
-          (?)
-        ''', (self.title)
+          (?, ?)
+        ''', (self.title, self.table_id)
         )
         
     def __repr__(self):
@@ -28,13 +28,15 @@ class Column:
         cursor.execute('''
         CREATE TABLE column
         ( title TEXT NOT NULL,
-        table_id TEXT
+          table_id INTEGER NOT NULL,
+          FOREIGN KEY (table_id) REFERENCES work (rowid)
         )''')
 
 class ColumnForDisplay:
     def __init__(self, row):
         self.id = row['rowid']
         self.title = row['title']
+        self.table_id = row['table_id']
    
     
     @classmethod
