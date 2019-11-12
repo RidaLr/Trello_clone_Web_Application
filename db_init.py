@@ -3,7 +3,7 @@ import sqlite3
 from models.user import User
 from models.task import Task
 from models.column import Column
-from models.table import Work
+from models.work import Work
 
 def make_dicts(cursor, row):
     return dict((cursor.description[idx][0], value)
@@ -28,8 +28,11 @@ users = [
 ]
 
 tasks = [
-    Task(content="Do homework", author_id="rida@trello.com",status="ToDo", column_id=1),
-    Task(content="Do AWS project", author_id="pavel@trello.com",status="Done",  column_id=2),
+    Task(content="Do homework", author_id="rida@trello.com", column_id=1),
+    Task(content="Task1111", author_id="rida@trello.com",column_id=2),
+    Task(content="Test", author_id="rida@trello.com",column_id=1),
+    Task(content="Do AWS project", author_id="pavel@trello.com", column_id=1),
+    Task(content="Algo project", author_id="toto@trello.com", column_id=3),
 ]
 
 tables = [
@@ -39,9 +42,9 @@ tables = [
 ]
 
 columns = [
-    Column(title="To Do", table_id = 1),
-    Column(title="In Progress", table_id = 2),
-    Column(title="Done", table_id = 3),
+    Column(title="ToDo", table_id=1),
+    Column(title="InProgress",table_id=1),
+    Column(title="Done", table_id=2),
 ]
 
 

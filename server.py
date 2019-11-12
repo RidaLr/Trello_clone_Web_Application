@@ -5,7 +5,8 @@ import sqlite3
 
 from models.user import User, UserForLogin, ConnectedUser
 from models.task import Task, TaskForDisplay
-
+from models.work import Work, WorkForDisplay
+from models.column import Column, ColumnForDisplay
 
 DATABASE = '.data/db.sqlite'
 app = Flask(__name__)
@@ -56,7 +57,26 @@ def close_connection(exception):
 @app.route("/")
 @flask_login.login_required
 def home():
-  return render_template('index.html')
+    db = get_db()
+    cur = db.cursor()
+    
+    cur.execute('''SELECT rowid,* FROM column''')
+    columns = cur.fetchall()
+    
+    cur.execute('''SELECT * FROM tasks,column where tasks.column_id=column.rowid''')
+    tasks = cur.fetchall()
+    
+    cur.execute('''SELECT rowid, * FROM work where creator_id=? ORDER BY work.timestamp DESC''',(flask_login.current_user.get_id(),))
+    works=cur.fetchall()
+    
+    return render_template(
+      'index.html',
+      users=UserForLogin.getAll(cur),
+      columns=columns,
+      tasks=tasks,
+      works=works,
+    )
+  #return render_template('index.html')
 
 @app.route("/login", methods=['POST'])
 def login_post():
@@ -131,7 +151,9 @@ def logout():
     flask_login.logout_user()
     return redirect(url_for('login_get'))
   
-  
+@app.route('/columns')
+def displayColumnsForWork():
+  print("you are on work")
   
   
 @app.route('/is-email-used/<email>')
@@ -145,13 +167,75 @@ def is_email_used(email):
     return jsonify({"email": email, "free": free})
     
 
+@app.route('/add-column/', methods=['POST'])
+def addcolonne():
+  col=request.form['column']
+  idtab=request.form['idtabe']
+  column=Column(title=col,table_id=idtab)
+  db = get_db()
+  cur = db.cursor()
+  column.insert(cur)
+  db.commit()
+  return redirect(url_for('home'))
 
+@app.route('/delete-task/', methods=['POST'])
+def ShowWork():
+  id_ta=request.form['idWork']
+  db = get_db()
+  cur = db.cursor()
+    
+  cur.execute('''SELECT column.rowid,* FROM column,work where column.table_id=work.rowid''')
+  columns = cur.fetchall()
+    
+  cur.execute('''SELECT * FROM tasks,column where tasks.column_id=column.rowid''')
+  tasks = cur.fetchall()
+    
+  return render_template('index.html',users=UserForLogin.getAll(cur),columns=columns,tasks=tasks,works=WorkForDisplay.getAll(cur),)
+  
+  
+@app.route('/add-task/', methods=['POST'])
+def addtache():
+  tache=request.form['task']
+  id_col=request.form['colid']
+  id_ta=request.form['idt']
+  task=Task(content=tache,column_id=id_col,author_id=flask_login.current_user.get_id())
+  db = get_db()
+  cur = db.cursor()
+  task.insert(cur)
+  db.commit()
+  return redirect(url_for('home'))
+
+@app.route('/add-tableau/',methods=['POST'])
+def addtable():
+  table=request.form['tableau']
+  #id_e=request.form['idtab']
+  work=Work(title=table,creator_id=flask_login.current_user.get_id())
+  db = get_db()
+  cur = db.cursor()
+  work.insert(cur)
+  db.commit()
+  return redirect(url_for('home'))
+
+@app.route('/addTable/', methods=['POST'])
+@flask_login.login_required
+def posts_table():
+    content = request.json["content"]
+    work = Work(title=content, creator_id=flask_login.current_user.get_id())
+    print(content)
+    db = get_db()
+    cur = db.cursor()
+    work.insert(cur)
+    db.commit()
+
+    return "ok", 201
+  
+  #---------------------------TODO
 @app.route('/tasks/', methods=['POST'])
 @flask_login.login_required
 def posts_task():
-    content = request.json["taskToDo"]
-    task = Task(content=content, author_id=flask_login.current_user.get_id())
-    
+    content = request.json["content"]
+    task = Task(content=content, author_id=flask_login.current_user.get_id(),column_id="ToDO",status="ToDO")#TODO modify this shit
+    print(content)
     db = get_db()
     cur = db.cursor()
     task.insert(cur)
@@ -162,11 +246,12 @@ def posts_task():
 
 @app.route("/works/")
 def search():
-  #db = get_db()
-  #cur = db.cursor()
+  db = get_db()
+  cur = db.cursor()
   #cur.execute("SELECT key, url FROM shortcuts WHERE url LIKE ?", ('%' + query + '%',))
-  works = TaskForDisplay.getAll(cur)
-  return render_template('search.html', works=matches, query=query)
+  works = WorkForDisplay.getAll(cur)
+  return jsonify(works=works)
+
 
   
 ## Rowid -> User
@@ -184,38 +269,79 @@ def broadcast_user_list(cursor):
         { "name": u.name,
           "rowid": u.rowid,
           "status": get_user_status(u.rowid),
-         "role": u.role,
+          "role": u.role,
         }
         for u in UserForLogin.getAll(cursor)
       ]
   , broadcast=True)
     print("users sent")
-    
-def broadcast_column_list(cursor):
-  print("send columns")
-  io.emit('columnlist', [
-      { "name": l.title,
-        "rowid": u.rowid,
-        "status": get_user_status(u.rowid),
-       "role": u.role,
-      }
-      for l in UserForLogin.getAll(cursor)
-    ]
-  , broadcast=True)
-  print("users sent")
+    for u in UserForLogin.getAll(cursor):
+      print(u.name)
 
 def broadcast_task_list(cursor):
+    print("send tasks")
     io.emit('tasklist', [
-        { "author_name": t.author_name,
+        { #"author_name": t.author_name,
           "content": t.content,
           "date": t.date.strftime("%m/%d/%Y"),
           "status": t.status,
+          "column_id": t.column_id,
+          "visible" : True,
         }
         for t in TaskForDisplay.getAll(cursor)
       ]
   , broadcast=True)
+    print("tasks sent")
+    for i in TaskForDisplay.getAll(cursor):
+      print(i.content)
     
+def broadcast_column_list(cursor):
+    print("send columns")
+    io.emit('columnlist', [
+        { "title": l.title,
+          "rowid": l.rowid,
+          "table_id": l.table_id,
+          "content" : l.content,
+          "author_id" : l.author_id,
+        # "status" : l.status,
+         "column_id": l.column_id,
+         "visible" : True,
+        }
+        for l in ColumnForDisplay.getAll(cursor)
+      ]
+    , broadcast=True)
+    print("columns sent")
+    for i in ColumnForDisplay.getAll(cursor):
+      print("jhkjhkjhjkhjk",i.title)
+ 
+
     
+def broadcast_work_list(cursor):
+    print("send works")
+    io.emit('worklist', [
+        { "title": w.title,
+          "authorName": w.creator_id,
+          "date": w.timestamp.strftime("%m/%d/%Y"),
+          "rowid": w.rowid,
+        }
+        for w in WorkForDisplay.getAll(cursor)
+      ]
+  , broadcast=True)
+    print("works sent")
+    for l in WorkForDisplay.getAll(cursor):
+      print("hhhhhh",l.title)
+    
+"""@app.route('/work/<id>')
+def is_email_used(id):
+    db = get_db()
+    cur = db.cursor()
+    
+    user = UserForLogin.getByEmail(cur, email)
+    free = user is None
+        
+    return jsonify({"email": email, "free": free})"""
+  
+  
 @io.on('connect')
 def ws_connect():
     if not flask_login.current_user.is_authenticated:
@@ -228,7 +354,10 @@ def ws_connect():
     cur = db.cursor()
   
     broadcast_user_list(cur)
-    broadcast_task_list(cur)
+   # broadcast_task_list(cur)
+    broadcast_work_list(cur)
+    broadcast_column_list(cur)
+   # broadcast_column_list_by_id(cur, s)
 
 @io.on('disconnect')
 def ws_disconnect():
@@ -240,6 +369,8 @@ def ws_disconnect():
     cur = db.cursor()    
     broadcast_user_list(cur)
 
-            
 if __name__ == '__main__':
     io.run(app, debug=True)
+"""if __name__ == '__main__':
+    app.run(debug=True)"""
+

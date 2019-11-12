@@ -6,7 +6,7 @@ pip3 install --user  -r requirements.txt > /dev/null
 echo "Python deps grabbed!"
 
 mkdir -p .data
-python3 db_init.py
+#python3 db_init.py
 
 echo ""
 if [ ! -f "/app/.local/bin/elm" ]; then
@@ -18,6 +18,8 @@ if [ ! -f "/app/.local/bin/elm" ]; then
 else
    echo "Elm seems already installed!"
 fi
+
+elm install rundis/elm-bootstrap
 
 # experiment for using elm-format but it does not play well with glitch (need to "refresh" after each elm-format...)
 #elmformat_bin_url="https://github.com/avh4/elm-format/releases/download/0.8.1/elm-format-0.8.1-linux-x64.tgz"

@@ -9,14 +9,96 @@
 {% endblock %}
 
 {% block content %}
+ 
 <main id="main-content">
+   
+<section id="user-list">
+ <!-- <header>
+    List of users
+  </header>
+  <ul>  
+  {% for user in users %}
+      <li>{{ user.name }}</li>
+  {% endfor %}
+  </ul>-->
+  
+</section> 
+  
+<section class="lists-container" id="add-tableau">
+  
+      <form class="form" action="/add-tableau/" method="POST" id="tab-form">
+        <input type="text" name="tableau" placeholder="Please write the title of the project " required/>
+        <input type="submit" value="Add Project"/>
+      </form>
+  <ul>  
 
+      {% for work in works %}
+        <div class="">
+          
+          <li style="display:inline;">  
+           <h1 class="work-title">
+             {{work.title}} 
+            </h1>
+            <a hrfe="/Share-Work">Share Table</a>
+          </li>
+    
+    
+          <form class="form" action="/add-column/" method="POST" id="colonn-form">
+          <input type="text" name="column" placeholder="Please write the column title" required/>
+          <input type="submit" value="Add Columne"/>
+          <input type="hidden" name="idtabe" value="{{work.rowid}}"/>
+          </form>
+            <div  class ="lists-container" style="display: flex;">
+              {% for column in columns %}
+                {% if column.table_id==work.rowid %}
+                  <ul class ="list">  
+
+                      <li class="list-title" style="display:inline;">{{ column.title }}</li>
+                      <script>
+                          app.ports.sendData.subscribe(function(data) {
+                              console.log("Data from Elm: ", data);
+                              app.ports.receiveData.send(column.rowid);
+                          });
+                      </script>
+                    <form class="form" action="/add-task/" method="POST" id="tacheform">
+                        <input type="text" name="task" placeholder="Enter a task here !!" required/>
+                        <input type="submit" value="Add Task"/>
+                        <input type="hidden" name="colid" value="{{column.rowid}}"/>
+                        <input type="hidden" name="idt" value="{{column.table_id}}"/>
+                    </form>
+
+                     <ul class="list-items">  
+                        {% for task in tasks %}
+                            {% if task.column_id == column.rowid %}
+                               <li>
+                                 {{task.content}} <progress id="file" max="100" value="70"> 70% </progress>
+                               </li>
+                            {% endif %}
+
+                        {% endfor %}
+                    </ul> 
+
+
+                </ul>
+              {% endif %}
+            {% endfor %}
+          </div>
+    </div>
+
+    
+    {% endfor%}
+  </ul> 
+  
+
+</section> 
+ 
 </main>
+
 <script src="//cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js" integrity="sha256-yr4fRk/GU1ehYJPAs8P4JlTgu0Hdsp4ZKrx8bDEDC3I=" crossorigin="anonymous"></script>
 <script type="text/javascript" charset="utf-8">
 var socket = io();
-var app = Elm.Main.init({ node: document.querySelector('#main-content')});
-
+var app = Elm.Main.init({ node: document.querySelector('#user-list')});
+  
 socket.on('userlist', function(userlist){
   console.log("Userlist received:", userlist);
   app.ports.userlistPort.send(userlist);
@@ -31,6 +113,10 @@ socket.on('columnlist', function(columnlist){
   console.log("Columnlist received:", columnlist);
   app.ports.columnlistPort.send(columnlist);
 });
-  
+
+socket.on('worklist', function(worklist){
+  console.log("Worklist received:", worklist);
+  app.ports.worklistPort.send(worklist);
+});
 </script>
 {% endblock %}

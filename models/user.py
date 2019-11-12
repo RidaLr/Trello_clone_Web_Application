@@ -30,6 +30,7 @@ class User:
         
     @classmethod
     def create_table(cls, cursor):
+        print("début de la creation de la table users")
         cursor.execute('DROP TABLE IF EXISTS users')
 
         cursor.execute('''
@@ -39,6 +40,8 @@ class User:
         , email TEXT NOT NULL PRIMARY KEY
         , role TEXT
         )''')
+        
+        print("La table users est crée avec succé")
 
 class UserForLogin(flask_login.UserMixin):
     def __init__(self, row):
@@ -70,7 +73,7 @@ class UserForLogin(flask_login.UserMixin):
     
     @classmethod
     def getAll(cls, cursor):
-      cursor.execute('SELECT rowid, name, email, password_hash, role FROM users')
+      cursor.execute('''SELECT rowid, name, email, password_hash, role FROM users''')
       return [ cls(row) for row in cursor.fetchall() ]
 
 class ConnectedUser:

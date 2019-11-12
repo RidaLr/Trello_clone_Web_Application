@@ -10,7 +10,7 @@ body, html {
 #header {
   margin: 0;
   height : 78px;
-  background-color: black;
+  background-color: #5aadd3;
  /*width: 100%;*/
   color: white;
   padding: 4px;
@@ -18,8 +18,7 @@ body, html {
   flex-direction: row;
   justify-content: space-between;
 }
-
-
+ 
  
 a {
   text-decoration: none;
@@ -28,7 +27,7 @@ a {
   border-bottom: 1px solid #a6abaf;
   border-radius: 6px 6px 0 0;
   box-sizing: border-box;
-  color: #727678;
+  color: #acd959;
   display: block;
   height: 56px;
   font: 600 34px/1 'Open Sans', sans-serif;
