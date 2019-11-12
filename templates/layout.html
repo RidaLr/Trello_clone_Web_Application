@@ -10,8 +10,15 @@
   <body>
     <header id="header">
       <h1>
-        <a id="slogan" href="/">TRELLO</a>
+        <a id="slogan" href="/">
+          <img src="https://cdn.glitch.com/900a2d8a-8628-4482-a595-53ff280e4356%2Ftrello-logo-blue.svg?v=1572438439521" style="height :50px;">
+        </a>
       </h1>
+      {% if current_user.is_authenticated %}
+      <h1>
+        Hello {{current_user.name}}<img src="https://api.adorable.io/avatars/15/{{current_user.name}}@adorable.io.png">
+      </h1>
+      {% endif %}
         <nav>
           {% if current_user.is_authenticated %}
             <div>

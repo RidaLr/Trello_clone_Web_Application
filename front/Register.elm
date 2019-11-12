@@ -1,5 +1,7 @@
 module Register exposing (main)
 
+import Bootstrap.Accordion as Accordion
+import Bootstrap.Card.Block as Block
 import Browser
 import Html exposing (..)
 import Html.Attributes exposing (..)
