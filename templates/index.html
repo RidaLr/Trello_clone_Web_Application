@@ -9,11 +9,7 @@
 {% endblock %}
 
 {% block content %}
- 
-<main id="main-content">
-   
-<section id="user-list">
- <!-- <header>
+  <!-- <header>
     List of users
   </header>
   <ul>  
@@ -21,13 +17,17 @@
       <li>{{ user.name }}</li>
   {% endfor %}
   </ul>-->
+<main id="main-content">
+   
+<!--<section id="user-list">
+
   
-</section> 
+</section> -->
   
-<section class="lists-container" id="add-tableau">
+<section id="table-list" style="width:1400px;">
   
-      <form class="form" action="/add-tableau/" method="POST" id="tab-form">
-        <input type="text" name="tableau" placeholder="Please write the title of the project " required/>
+      <form class="form" action="/Add-Work/" method="POST" id="tab-form">
+        <input type="text" name="work" placeholder="Please write the title of the project " required/>
         <input type="submit" value="Add Project"/>
       </form>
   <ul>  
@@ -43,23 +43,22 @@
           </li>
     
     
-          <form class="form" action="/add-column/" method="POST" id="colonn-form">
+          <form class="form" action="/AddColumn/" method="POST" id="colonn-form">
           <input type="text" name="column" placeholder="Please write the column title" required/>
           <input type="submit" value="Add Columne"/>
           <input type="hidden" name="idtabe" value="{{work.rowid}}"/>
           </form>
-            <div  class ="lists-container" style="display: flex;">
+            <div  class ="lists-container">
               {% for column in columns %}
                 {% if column.table_id==work.rowid %}
-                  <ul class ="list">  
-
-                      <li class="list-title" style="display:inline;">{{ column.title }}</li>
-                      <script>
-                          app.ports.sendData.subscribe(function(data) {
-                              console.log("Data from Elm: ", data);
-                              app.ports.receiveData.send(column.rowid);
-                          });
-                      </script>
+                  <ul class ="list" style="  display:inline-block; vertical-align:top;">  
+                      
+                    <li class="list-title" style="display:flex;">{{ column.title }}
+                      <form class="form" action="/DeleteColumn/" method="POST" id="">
+                        <input type="submit" value="-"/>
+                        <input type="hidden" name="rowid" value="{{column.rowid}}"/>
+                      </form>
+                    </li>
                     <form class="form" action="/add-task/" method="POST" id="tacheform">
                         <input type="text" name="task" placeholder="Enter a task here !!" required/>
                         <input type="submit" value="Add Task"/>
@@ -72,6 +71,10 @@
                             {% if task.column_id == column.rowid %}
                                <li>
                                  {{task.content}} <progress id="file" max="100" value="70"> 70% </progress>
+                                 <form class="form" action="/DeleteColumn/" method="POST" id="">
+                                    <input type="submit" value="-"/>
+                                    <input type="hidden" name="rowid" value="{{column.rowid}}"/>
+                                  </form>
                                </li>
                             {% endif %}
 
@@ -93,7 +96,7 @@
 </section> 
  
 </main>
-
+<!--
 <script src="//cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js" integrity="sha256-yr4fRk/GU1ehYJPAs8P4JlTgu0Hdsp4ZKrx8bDEDC3I=" crossorigin="anonymous"></script>
 <script type="text/javascript" charset="utf-8">
 var socket = io();
@@ -118,5 +121,5 @@ socket.on('worklist', function(worklist){
   console.log("Worklist received:", worklist);
   app.ports.worklistPort.send(worklist);
 });
-</script>
+</script>-->
 {% endblock %}

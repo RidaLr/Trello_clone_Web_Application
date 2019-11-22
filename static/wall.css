@@ -17,7 +17,7 @@
   grid-column: 9 / span 3;
   grid-row: 1/ span 5;
   border-right: #ffa7a7 1px solid;
-  overflow-y: scroll; 
+  'overflow-y: scroll; 
   overflox-x: hidden;
   height: 100%;
   width: 125px;
@@ -185,6 +185,7 @@ body {
   font-smoothing: antialiased;
    height:100%;
   background-image: linear-gradient(to top, #209cff 0%, #68e0cf 100%);
+  'background-color: #110125;
   
 }
 
@@ -278,14 +279,16 @@ button, input[type=submit] {
 }
 
 .lists-container{
-  display:grid;
+  width:auto;
+  display:flex;
+  overflow:scroll;
 }
 .colomne {
   background: #34495E;
   color: red;
   border: 1px solid black;
   border-radius: .4em;
-  overflow: hidden;
+  overflow: scroll;
   margin: 1em 0;
   width: 350px;
   border-color: lighten(#34495E, 10%);
@@ -295,6 +298,7 @@ button, input[type=submit] {
 
 .view-colomne{
   display:flex;
+  overflow:scroll;
 }
 .view-work{
   display:flex;

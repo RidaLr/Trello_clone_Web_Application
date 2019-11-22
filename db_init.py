@@ -22,23 +22,23 @@ Work.create_table(cur)
 
 
 users = [
-    User("Rida", "rida@trello.com", "12345", "Admin"),
-    User("Pavel", "pavel@trello.com", "12345", "Admin"),
-    User("Toto", "toto@trello.com", "12345", "Collaborator"),
+    User("Rida", "rida@trello.com", "12345"),
+    User("Pavel", "pavel@trello.com", "12345"),
+    User("Toto", "toto@trello.com", "12345"),
 ]
 
 tasks = [
-    Task(content="Do homework", author_id="rida@trello.com", column_id=1),
-    Task(content="Task1111", author_id="rida@trello.com",column_id=2),
+    Task(content="Conception", author_id="rida@trello.com", column_id=1),
+    Task(content="Analysis", author_id="rida@trello.com",column_id=2),
     Task(content="Test", author_id="rida@trello.com",column_id=1),
-    Task(content="Do AWS project", author_id="pavel@trello.com", column_id=1),
-    Task(content="Algo project", author_id="toto@trello.com", column_id=3),
+    Task(content="Repport", author_id="pavel@trello.com", column_id=1),
+    Task(content="Algorithms", author_id="toto@trello.com", column_id=3),
 ]
 
 tables = [
     Work(title="AWS Project", creator_id="rida@trello.com"),
     Work(title="Algorithm project", creator_id="pavel@trello.com"),
-    Work(title="Sohier project", creator_id="toto@trello.com"),
+    Work(title="Mobile project", creator_id="toto@trello.com"),
 ]
 
 columns = [

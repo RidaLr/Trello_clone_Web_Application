@@ -10616,18 +10616,19 @@ var author$project$Main$decodeExternalColumnlist = function (val) {
 var author$project$Main$GotTasks = function (a) {
 	return {$: 'GotTasks', a: a};
 };
-var author$project$Main$Task = F5(
-	function (column_id, content, date, status, visible) {
-		return {column_id: column_id, content: content, date: date, status: status, visible: visible};
+var author$project$Main$Task = F6(
+	function (author_name, column_id, content, date, rowid, visible) {
+		return {author_name: author_name, column_id: column_id, content: content, date: date, rowid: rowid, visible: visible};
 	});
-var elm$json$Json$Decode$map5 = _Json_map5;
-var author$project$Main$taskDecoder = A6(
-	elm$json$Json$Decode$map5,
+var elm$json$Json$Decode$map6 = _Json_map6;
+var author$project$Main$taskDecoder = A7(
+	elm$json$Json$Decode$map6,
 	author$project$Main$Task,
+	A2(elm$json$Json$Decode$field, 'author_name', elm$json$Json$Decode$string),
 	A2(elm$json$Json$Decode$field, 'column_id', elm$json$Json$Decode$int),
 	A2(elm$json$Json$Decode$field, 'content', elm$json$Json$Decode$string),
 	A2(elm$json$Json$Decode$field, 'date', elm$json$Json$Decode$string),
-	A2(elm$json$Json$Decode$field, 'status', elm$json$Json$Decode$string),
+	A2(elm$json$Json$Decode$field, 'rowid', elm$json$Json$Decode$int),
 	A2(elm$json$Json$Decode$field, 'visible', elm$json$Json$Decode$bool));
 var author$project$Main$decodeExternalTasklist = function (val) {
 	var _n0 = A2(
@@ -10913,7 +10914,7 @@ var author$project$Main$view = function (model) {
 		elm$html$Html$main_,
 		_List_fromArray(
 			[
-				elm$html$Html$Attributes$id('m-content')
+				elm$html$Html$Attributes$id('ma-content')
 			]),
 		_List_fromArray(
 			[
@@ -10935,9 +10936,7 @@ var author$project$Main$view = function (model) {
 						A2(
 						elm$html$Html$ul,
 						_List_Nil,
-						A2(elm$core$List$map, author$project$Main$viewUser, model.users)),
-						elm$html$Html$text(
-						elm$core$String$fromInt(model.column_id))
+						A2(elm$core$List$map, author$project$Main$viewUser, model.users))
 					]))
 			]));
 };
@@ -10951,5 +10950,5 @@ var author$project$Main$main = elm$browser$Browser$element(
 		view: author$project$Main$view
 	});
 _Platform_export({'Main':{'init':author$project$Main$main(
-	elm$json$Json$Decode$succeed(_Utils_Tuple0))({"versions":{"elm":"0.19.0"},"types":{"message":"Main.Msg","aliases":{"Main.Column":{"args":[],"type":"{ title : String.String, rowid : Basics.Int, table_id : Basics.Int, content : String.String, author_id : String.String, column_id : Basics.Int, visible : Basics.Bool }"},"Main.Task":{"args":[],"type":"{ column_id : Basics.Int, content : String.String, date : String.String, status : String.String, visible : Basics.Bool }"},"Main.User":{"args":[],"type":"{ name : String.String, status : Main.UserStatus, rowid : Basics.Int }"},"Main.Work":{"args":[],"type":"{ title : String.String, authorName : String.String, date : String.String, rowid : Basics.Int }"},"Json.Decode.Value":{"args":[],"type":"Json.Encode.Value"}},"unions":{"Main.Msg":{"args":[],"tags":{"GotUserlist":["List.List Main.User"],"GotTasks":["List.List Main.Task"],"GotColumns":["List.List Main.Column"],"GotWorks":["List.List Main.Work"],"DecodeError":["Json.Decode.Error"],"TaskUpdated":["String.String"],"TableUpdated":["String.String"],"TaskSubmitted":[],"TableSubmitted":[],"SendDataToJS":["String.String"],"ReceivedDataFromJS":["Basics.Int"],"ColumnSubmitted":[],"NoOp":[]}},"Main.UserStatus":{"args":[],"tags":{"Disconnected":[],"Available":[]}},"Basics.Bool":{"args":[],"tags":{"True":[],"False":[]}},"Basics.Int":{"args":[],"tags":{"Int":[]}},"List.List":{"args":["a"],"tags":{}},"String.String":{"args":[],"tags":{"String":[]}},"Json.Decode.Error":{"args":[],"tags":{"Field":["String.String","Json.Decode.Error"],"Index":["Basics.Int","Json.Decode.Error"],"OneOf":["List.List Json.Decode.Error"],"Failure":["String.String","Json.Decode.Value"]}},"Json.Encode.Value":{"args":[],"tags":{"Value":[]}}}}})},'Register':{'init':author$project$Register$main(
+	elm$json$Json$Decode$succeed(_Utils_Tuple0))({"versions":{"elm":"0.19.0"},"types":{"message":"Main.Msg","aliases":{"Main.Column":{"args":[],"type":"{ title : String.String, rowid : Basics.Int, table_id : Basics.Int, content : String.String, author_id : String.String, column_id : Basics.Int, visible : Basics.Bool }"},"Main.Task":{"args":[],"type":"{ author_name : String.String, column_id : Basics.Int, content : String.String, date : String.String, rowid : Basics.Int, visible : Basics.Bool }"},"Main.User":{"args":[],"type":"{ name : String.String, status : Main.UserStatus, rowid : Basics.Int }"},"Main.Work":{"args":[],"type":"{ title : String.String, authorName : String.String, date : String.String, rowid : Basics.Int }"},"Json.Decode.Value":{"args":[],"type":"Json.Encode.Value"}},"unions":{"Main.Msg":{"args":[],"tags":{"GotUserlist":["List.List Main.User"],"GotTasks":["List.List Main.Task"],"GotColumns":["List.List Main.Column"],"GotWorks":["List.List Main.Work"],"DecodeError":["Json.Decode.Error"],"TaskUpdated":["String.String"],"TableUpdated":["String.String"],"TaskSubmitted":[],"TableSubmitted":[],"SendDataToJS":["String.String"],"ReceivedDataFromJS":["Basics.Int"],"ColumnSubmitted":[],"NoOp":[]}},"Main.UserStatus":{"args":[],"tags":{"Disconnected":[],"Available":[]}},"Basics.Bool":{"args":[],"tags":{"True":[],"False":[]}},"Basics.Int":{"args":[],"tags":{"Int":[]}},"List.List":{"args":["a"],"tags":{}},"String.String":{"args":[],"tags":{"String":[]}},"Json.Decode.Error":{"args":[],"tags":{"Field":["String.String","Json.Decode.Error"],"Index":["Basics.Int","Json.Decode.Error"],"OneOf":["List.List Json.Decode.Error"],"Failure":["String.String","Json.Decode.Value"]}},"Json.Encode.Value":{"args":[],"tags":{"Value":[]}}}}})},'Register':{'init':author$project$Register$main(
 	elm$json$Json$Decode$succeed(_Utils_Tuple0))({"versions":{"elm":"0.19.0"},"types":{"message":"Register.Msg","aliases":{"Register.TestEmail":{"args":[],"type":"{ email : String.String, free : Basics.Bool }"}},"unions":{"Register.Msg":{"args":[],"tags":{"EmailUpdated":["String.String"],"NameUpdated":["String.String"],"Password1Updated":["String.String"],"Password2Updated":["String.String"],"GotTestEmail":["Result.Result Http.Error Register.TestEmail"]}},"Basics.Bool":{"args":[],"tags":{"True":[],"False":[]}},"Result.Result":{"args":["error","value"],"tags":{"Ok":["value"],"Err":["error"]}},"String.String":{"args":[],"tags":{"String":[]}},"Http.Error":{"args":[],"tags":{"BadUrl":["String.String"],"Timeout":[],"NetworkError":[],"BadStatus":["Basics.Int"],"BadBody":["String.String"]}},"Basics.Int":{"args":[],"tags":{"Int":[]}}}}})}});}(this));

@@ -2,11 +2,11 @@ import flask_login
 from werkzeug.security import generate_password_hash, check_password_hash
 
 class User:
-    def __init__(self, name, email, password, role):
+    def __init__(self, name, email, password):
         self.name = name
         self.email = email
         self.set_password(password)
-        self.role = role
+        
 
     def set_password(self, password):
         self.password_hash = generate_password_hash(password)
@@ -18,11 +18,10 @@ class User:
           ( name
           , email
           , password_hash
-          , role
           )
           VALUES 
-          ( ?, ?, ?, ?)
-        ''', (self.name, self.email, self.password_hash, self.role)
+          ( ?, ?, ?)
+        ''', (self.name, self.email, self.password_hash)
         )
         
     def __repr__(self):
@@ -38,7 +37,6 @@ class User:
         ( name TEXT NOT NULL
         , password_hash TEXT NOT NULL
         , email TEXT NOT NULL PRIMARY KEY
-        , role TEXT
         )''')
         
         print("La table users est crée avec succé")
@@ -48,7 +46,6 @@ class UserForLogin(flask_login.UserMixin):
         self.email = row['email']
         self.password_hash = row['password_hash']
         self.name = row['name']
-        self.role = row['role']
         self.rowid = row['rowid']
     
     def check_password(self, password):
@@ -60,7 +57,7 @@ class UserForLogin(flask_login.UserMixin):
     @classmethod
     def getByEmail(cls, cursor, email):
         cursor.execute('''
-            SELECT rowid, email, password_hash, name, role
+            SELECT rowid, email, password_hash, name
             FROM users
             WHERE email = ?
         ''', (email,))
@@ -73,14 +70,13 @@ class UserForLogin(flask_login.UserMixin):
     
     @classmethod
     def getAll(cls, cursor):
-      cursor.execute('''SELECT rowid, name, email, password_hash, role FROM users''')
+      cursor.execute('''SELECT rowid, name, email, password_hash FROM users''')
       return [ cls(row) for row in cursor.fetchall() ]
 
 class ConnectedUser:
-    def __init__(self, rowid, name, role, socket_id):
+    def __init__(self, rowid, name, socket_id):
         self.rowid = rowid
         self.name = name
-        self.role = role
         self.socket_id = socket_id
         self.status = 'AVAILABLE'
 

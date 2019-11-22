@@ -43,16 +43,19 @@ class Task:
 
 class TaskForDisplay:
     def __init__(self, row):
-        #self.author_name = row['author_name']
-       # self.rowid = row['rowid']
-        #self.date = datetime.datetime.fromtimestamp(row['timestamp'])
+        self.author_name = row['author_id']
+        self.rowid = row['rowid']
+        self.date = datetime.datetime.fromtimestamp(row['timestamp'])
         self.content = row['content']
-        self.column_id=row['column_id']
+        self.column_id = row['column_id']
     
     @classmethod
     def getAll(cls, cursor):
       cursor.execute('''
-          SELECT * FROM tasks,column where tasks.column_id=column.rowid
+          SELECT title,content, tasks.timestamp,author_id,tasks.rowid,column_id
+          FROM tasks
+          JOIN column ON tasks.column_id=column.rowid
+          ORDER BY tasks.timestamp DESC
       ''')
       return [ cls(row) for row in cursor.fetchall() ]
     
