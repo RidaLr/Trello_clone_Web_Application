@@ -13,7 +13,8 @@ import Html.Events exposing (..)
 import Http
 import Json.Decode as Decode exposing (Decoder, Value)
 import Json.Encode as Encode
- 
+import RemoteData exposing (..)
+import HttpBuilder exposing (..)
 
 port userlistPort : (Value -> msg) -> Sub msg
 port tasklistPort : (Value -> msg) -> Sub msg
@@ -21,7 +22,6 @@ port columnlistPort : (Value -> msg) -> Sub msg
 port worklistPort : (Value -> msg) -> Sub msg
 port sendData : String -> Cmd msg
 port receiveData : (Int -> msg) -> Sub msg
-
 
 type alias Model =
     { tasks : List Task
@@ -40,10 +40,11 @@ type alias Model =
 
 
 type alias Task =
-    { column_id : Int --authorName : String
+    { author_name : String
+    , column_id : Int
     , content : String
     , date : String
-    , status : String
+    , rowid : Int
     , visible : Bool
     }
 
@@ -61,7 +62,6 @@ type alias Column =
     table_id: Int,
     content : String,
     author_id : String,
-    --status : String,
     column_id : Int,
     visible : Bool
     }
@@ -74,10 +74,10 @@ type alias Work =
     }
     
 
-type TaskStatus
+{-type TaskStatus
     = ToDo
     | InProgress
-    | Done
+    | Done-}
     
 type UserStatus
     = Disconnected
@@ -99,7 +99,6 @@ type Msg
    -- | LoadTableSubmitted
     | ColumnSubmitted
     | NoOp
-
 
 userDecoder : Decoder User
 userDecoder =
@@ -127,14 +126,18 @@ workDecoder =
         (Decode.field "date" Decode.string)
         (Decode.field "rowid" Decode.int)
 
-
+ 
+ 
+ 
+ 
 taskDecoder : Decoder Task
 taskDecoder =
-    Decode.map5 Task
+    Decode.map6 Task
+        (Decode.field "author_name" Decode.string)
         (Decode.field "column_id" Decode.int)
         (Decode.field "content" Decode.string)
         (Decode.field "date" Decode.string)
-        (Decode.field "status" Decode.string)
+        (Decode.field "rowid" Decode.int)
         (Decode.field "visible" Decode.bool)
 
 
@@ -154,7 +157,7 @@ userStatusDecoder =
                         Decode.fail ("unknown status " ++ status)
             )
 
-taskStatusDecoder : Decoder TaskStatus
+{-taskStatusDecoder : Decoder TaskStatus
 taskStatusDecoder =
     Decode.string
         |> Decode.andThen
@@ -173,7 +176,7 @@ taskStatusDecoder =
                         Decode.fail ("unknown status " ++ status)
             )
 
-
+-}
 
 
 decodeExternalTasklist : Value -> Msg
@@ -213,12 +216,8 @@ decodeExternalColumnlist val =
         Err err ->
             DecodeError err
             
-chooseColums : Int -> Column -> Column
-chooseColums  workId column = 
-                if(column.table_id /= workId) then
-                  {column | visible = False}
-                else
-                {column | visible = True}
+
+                
                 
 chooseTasks : Int -> Column -> Column
 chooseTasks  columnId task = 
@@ -226,6 +225,14 @@ chooseTasks  columnId task =
                   {task | visible = False}
                 else
                 {task | visible = True}
+                
+a : Work -> Html Msg
+a work = 
+  button [ ] [ text (work.title) ]
+
+
+
+
 
 initialModel : Model
 initialModel =
@@ -265,7 +272,6 @@ update msg model =
         
         GotWorks works ->
             ( { model | works = works }, Cmd.none )
-
         TaskUpdated newTask ->
             ( { model | newTask = newTask }, Cmd.none )
 
@@ -336,19 +342,26 @@ view model =
         --, br [] []
      --   ,ul [][li[][ text ("Data received from JavaScript: " ++ String.fromInt(model.column_id))]]
    --     ]
-    main_ [ id "m-content" ]
+    main_ [ id "ma-content" ]
         [ 
         section [ id "user-list" ]
             [ header []
                 [ text ("Your Team ") ]
             , ul []
                 (List.map viewUser model.users)
-            ,text(String.fromInt(model.column_id))]
-        ]
+                ]
+          {-  ,
+            section [ id "table-list" ]
+            [ header []
+                [ text ("Your Tables ") ]
+            , ul []
+                (List.map2 viewTableau model.columns model.works)]
+
+        
             
- 
+
                                   
-      {- , section [ id "tabls" ]
+       , section [ id "tabls" ]
             [ Html.form [ action "/addTable/", id "table-form", method "POST", onSubmit TableSubmitted ]
                 [ input
                     [ name "content"
@@ -358,41 +371,16 @@ view model =
                     , onInput TableUpdated
                     ]
                     []
-                , input [ type_ "submit", value "Share!" ] []
+                , input [ type_ "submit", value "Add New Project" ] []
                 ]
                 ,
                 div[class "view-work"][ul [class "View-work"]
                 (List.map viewWork model.works)]
                 ,
     div[class "view-colomne"] (List.map viewColumn model.columns)
-    ]
-        -}
-        {-Table.simpleTable
-    ( Table.simpleThead
-        [ (List.map viewColumn model.columns)
-        ,Table.th [] [ text "Col 1" ]
-        , Table.th [] [ text "Col 2" ]
-        , Table.th [] [ text "Col 3" ]
-        ]
-    , Table.tbody []
-        [ Table.tr []
-            [ Table.td [] [ text "Hello" ]
-            , Table.td [] [ text "Hello" ]
-            , Table.td [] [ text "Hello" ]
-            ]
-        , Table.tr []
-            [ Table.td [] [ text "There" ]
-            , Table.td [] [ text "There" ]
-            , Table.td [] [ text "There" ]
-            ]
-        , Table.tr []
-            [ Table.td [] [ text "Dude" ]
-            , Table.td [] [ text "Dude" ]
-            , Table.td [] [ text "Dude" ]
-            ]
-        ]
-    )
-          -}          
+    ]-}
+        
+                  
                 {-div [class "colomne"]
                 [h1[][text("To Do")],
                 Html.form [ action "/tasks/", id "task-form", method "POST", onSubmit TaskSubmitted ]
@@ -431,42 +419,46 @@ view model =
                     , onInput TaskUpdated ] []
                   , input [type_ "submit", value "+" ] []
                   ]
-    -}
-             --   , ul [ id "task-list" ]
-               --     (List.map viewColonne model.columns)
-                --]
+    
+                , ul [ id "task-list" ]
+                    (List.map viewColumn model.columns)-}
+                ]
                 --section [ id "work-list" ]
             --[ header []
               --  [ text "Tables " ]
              
             
-        --]
+       -- ]
 
 
     
 
-viewTableau: Work -> Html Msg
-viewTableau tab= 
-     li [] [ Html.text tab.title
-       
-     ,Html.form [action "/add-column/", method "POST", id "colonn-form" {-, onSubmit ColonneSubmited-}]
-                      [ input
-                          [ name "column", placeholder "ajouter une colonne", type_ "text", name "modifier"{-, onInput ColonneUpdated-}] []
-                      , input
-                          [ value "add colonne", type_ "submit" ] []
-                      , input
-                          [ name "idtabe", value (String.fromInt (tab.rowid)) , type_ "hidden" ] []
-             ]
-   -- ,Html.ul [] (List.map viewColonne tab.colonnes)
-            ]
+viewTableau: Column -> Work -> Html Msg
+viewTableau col tab= 
+    case col.table_id==tab.rowid of
+      True ->
+           li [] [ (a tab)
 
+           ,Html.form [action "/AddColumn/", method "POST", id "colonn-form"]
+                            [ input
+                                [ name "column", placeholder "Add a column ", type_ "text"] []
+                            , input
+                                [ value "add colonne", type_ "submit" ] []
+                            , input
+                                [ name "idtabe", value (String.fromInt (tab.rowid)) , type_ "hidden" ] []
+                   ]
+          ,( viewColonne col tab.rowid)
+                  ]
+      False ->
+           li [] []
     
-viewColonne: Column -> Html Msg  
-viewColonne col =
-        
-                li [] [text col.title,
+viewColonne: Column -> Int -> Html Msg  
+viewColonne col idtab =
+        case col.table_id==idtab of
+            True ->
+                li [class "colomne"] [text col.title,
 
-                        Html.form [action "/add-tache/", method "POST", id "tacheform" {-, onSubmit TacheSubmited-}]
+                        Html.form [action "/add-task/", method "POST", id "tacheform" {-, onSubmit TacheSubmited-}]
                             [ input
                                 [ name "task", placeholder "ajouter une Tache", type_ "text", name "modifier"{-, onInput TacheUpdated-}] []
                             , input
@@ -474,40 +466,20 @@ viewColonne col =
                             , input
                                 [ name "colid", value (String.fromInt (col.rowid)), type_ "hidden" ] []
                        ]
-                  --     , Html.ul [] ( List.map viewTache col.taches )
+                 --      , ( viewTache col col.rowid )
 
                 ]
+            False ->
+               li [] []
        
               
                   
-viewTache: Column -> Html Msg  
-viewTache task=
+viewTache: Column->Int -> Html Msg  
+viewTache task idcol=
         
         li [] [text task.content]
 
 
-viewTask0 : Column -> String
-viewTask0 task =
-    case task.title of
-        "Done" ->
-            --li [class "done" ]
-              task.content
-              --  , button [ onClick <| ClikedOnDoneButton id ] [ text "Done!" ]
-            --    ]
-
-        "ToDo" ->
-            --li [ class "todo" ] [ 
-            task.content
-            
-        "InProgress" ->
-            --li [ class "urginprogressent" ]
-               -- [ 
-                task.content
-                --, button [ onClick <| ClikedOnDoneButton id ] [ text "Done!" ]
-              --  ]
-
-        _ ->
-          "⚠️"
 
 viewColumn1 : Column -> Html msg
 viewColumn1 column=
@@ -561,38 +533,61 @@ viewWork work =
         --li [] [button [ onClick Decrement ] [text work.title]]
 
 
+
 viewColumn : Column -> Html msg
 viewColumn column=
-  if(column.visible == True && (getid column) == column.column_id) then
-    
     div[class "colomne"][
       p[] [text (column.title)],
+      Html.form [class "form", action "/AddColumn/", method "POST", id "colonn-form"]
+      [
+          label []
+        [ text "Title"
+        , input [ type_ "text", name "column", placeholder "Column title" ] []
+        ],
+          label []
+        [ text ""
+        , input [ type_ "hidden", name "idtabe", value (String.fromInt(column.table_id)) ] []
+        ],
+        label []
+        [ 
+        input [ type_ "submit", value "submit" ] []
+        ]
+        
+      ]
+      ,
       ListGroup.ul [ListGroup.li [] [ text (viewTask0 column)]]
     ]
-    else
-      li [class "colomne" ]
-        [ div [ class "column-header" ]
-            [ span [ class "work-view" ]
-                [text ("ERROR")]
-            ]
-        ]
-   -- ListGroup.ul [ListGroup.li [] [ text "Should to nothing" ]]
-
-        
             
 viewt : Int -> Column -> String
 viewt id col = 
   (chooseTasks id col).content
 
--- Any word with more than 3 characters is so long!
-isLongWord : Column -> Bool
-isLongWord col =
-    col.column_id==col.rowid
 
-longWordsFromCatStory :List Column -> List Column
-longWordsFromCatStory columns= 
-    List.filter isLongWord columns
-  
+viewTask0 : Column -> String
+viewTask0 task =
+    task.content
+{-    case task.title of
+        "Done" ->
+            --li [class "done" ]
+              task.content
+              --  , button [ onClick <| ClikedOnDoneButton id ] [ text "Done!" ]
+            --    ]
+
+        "ToDo" ->
+            --li [ class "todo" ] [ 
+            task.content
+            
+        "InProgress" ->
+            --li [ class "urginprogressent" ]
+               -- [ 
+                task.content
+                --, button [ onClick <| ClikedOnDoneButton id ] [ text "Done!" ]
+              --  ]
+
+        _ ->
+          ""
+-}
+
 viewTaskForColumn : Task -> ListGroup.Item msg
 viewTaskForColumn task = 
   if(task.visible==True) then

@@ -74,7 +74,7 @@ def home():
       users=UserForLogin.getAll(cur),
       columns=columns,
       tasks=tasks,
-      works=works,
+      works=WorkForDisplay.getAll(cur),
     )
   #return render_template('index.html')
 
@@ -167,7 +167,7 @@ def is_email_used(email):
     return jsonify({"email": email, "free": free})
     
 
-@app.route('/add-column/', methods=['POST'])
+@app.route('/AddColumn/', methods=['POST'])
 def addcolonne():
   col=request.form['column']
   idtab=request.form['idtabe']
@@ -176,16 +176,26 @@ def addcolonne():
   cur = db.cursor()
   column.insert(cur)
   db.commit()
+  
   return redirect(url_for('home'))
 
+@app.route('/DeleteColumn/', methods=['POST'])
+def deletecolonne():
+  rowid=request.form['rowid']
+  column=Column(rowid)
+  db = get_db()
+  cur = db.cursor()
+  column.delete(cur,rowid)
+  db.commit()
+  return redirect(url_for('home'))
+
+
+"""##########################################TODO###############################"""
 @app.route('/delete-task/', methods=['POST'])
 def ShowWork():
   id_ta=request.form['idWork']
   db = get_db()
   cur = db.cursor()
-    
-  cur.execute('''SELECT column.rowid,* FROM column,work where column.table_id=work.rowid''')
-  columns = cur.fetchall()
     
   cur.execute('''SELECT * FROM tasks,column where tasks.column_id=column.rowid''')
   tasks = cur.fetchall()
@@ -205,10 +215,9 @@ def addtache():
   db.commit()
   return redirect(url_for('home'))
 
-@app.route('/add-tableau/',methods=['POST'])
+@app.route('/Add-Work/',methods=['POST'])
 def addtable():
-  table=request.form['tableau']
-  #id_e=request.form['idtab']
+  table=request.form['work']
   work=Work(title=table,creator_id=flask_login.current_user.get_id())
   db = get_db()
   cur = db.cursor()
@@ -269,7 +278,6 @@ def broadcast_user_list(cursor):
         { "name": u.name,
           "rowid": u.rowid,
           "status": get_user_status(u.rowid),
-          "role": u.role,
         }
         for u in UserForLogin.getAll(cursor)
       ]
@@ -281,10 +289,10 @@ def broadcast_user_list(cursor):
 def broadcast_task_list(cursor):
     print("send tasks")
     io.emit('tasklist', [
-        { #"author_name": t.author_name,
+        { "author_name": t.author_name,
           "content": t.content,
           "date": t.date.strftime("%m/%d/%Y"),
-          "status": t.status,
+          "rowid": t.rowid,
           "column_id": t.column_id,
           "visible" : True,
         }
@@ -294,7 +302,7 @@ def broadcast_task_list(cursor):
     print("tasks sent")
     for i in TaskForDisplay.getAll(cursor):
       print(i.content)
-    
+      
 def broadcast_column_list(cursor):
     print("send columns")
     io.emit('columnlist', [
@@ -303,7 +311,6 @@ def broadcast_column_list(cursor):
           "table_id": l.table_id,
           "content" : l.content,
           "author_id" : l.author_id,
-        # "status" : l.status,
          "column_id": l.column_id,
          "visible" : True,
         }
@@ -311,9 +318,6 @@ def broadcast_column_list(cursor):
       ]
     , broadcast=True)
     print("columns sent")
-    for i in ColumnForDisplay.getAll(cursor):
-      print("jhkjhkjhjkhjk",i.title)
- 
 
     
 def broadcast_work_list(cursor):
@@ -328,18 +332,6 @@ def broadcast_work_list(cursor):
       ]
   , broadcast=True)
     print("works sent")
-    for l in WorkForDisplay.getAll(cursor):
-      print("hhhhhh",l.title)
-    
-"""@app.route('/work/<id>')
-def is_email_used(id):
-    db = get_db()
-    cur = db.cursor()
-    
-    user = UserForLogin.getByEmail(cur, email)
-    free = user is None
-        
-    return jsonify({"email": email, "free": free})"""
   
   
 @io.on('connect')
@@ -354,9 +346,9 @@ def ws_connect():
     cur = db.cursor()
   
     broadcast_user_list(cur)
-   # broadcast_task_list(cur)
-    broadcast_work_list(cur)
-    broadcast_column_list(cur)
+    #broadcast_task_list(cur)
+    #broadcast_work_list(cur)
+    ##broadcast_column_list(cur)
    # broadcast_column_list_by_id(cur, s)
 
 @io.on('disconnect')
